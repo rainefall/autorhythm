@@ -15,24 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\fmod_audio.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\test.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fmod_sound.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\fmod_audio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\level_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fmod_sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

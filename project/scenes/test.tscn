@@ -22,4 +22,14 @@ margin_top = 95.0
 margin_right = 964.0
 margin_bottom = 561.0
 text = "Sample Text."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 36.0
+margin_top = 148.0
+margin_right = 556.0
+margin_bottom = 303.0
+text = "Sample Text"
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

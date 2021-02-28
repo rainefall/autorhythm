@@ -1,13 +1,25 @@
 #pragma once
 
-// gdnative api struct header
-#include "gdnative_api_struct.gen.h"
+// aubio [audio analysis library]
+// 2003-2018 | aubio team
+#include <aubio/aubio.h>
+
+// FMOD [audio middleware]
+// 1995-2021 | Firelight Technologies
+#include <fmod.h>
+
+// Godot Engine headers
+// 2007-2021 | Juan Linietsky, Ariel Manzur and contributors 
+#include <gdnative_api_struct.gen.h> // GDNative API struct header
+#include <gdnative/string.h> // godot string
 
 // functions to test GDNative
 #include "test.h"
 
-// basic FMOD Core API wrapper layer for godot
-#include "fmod_audio.h"
+// fmod sound object
+#include "fmod_sound.h"
 
 const godot_gdnative_core_api_struct* api;
 const godot_gdnative_ext_nativescript_api_struct* nativescript_api;
+
+const FMOD_SYSTEM* fmod_system;
