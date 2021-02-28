@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/test.gd" type="Script" id=1]
+
+[node name="Base" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_right = 137.0
+margin_bottom = 53.0
+text = "Button"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 35.0
+margin_top = 95.0
+margin_right = 964.0
+margin_bottom = 561.0
+text = "Sample Text."
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
