@@ -74,7 +74,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
     <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
@@ -82,7 +82,7 @@
     <LinkIncremental>false</LinkIncremental>
     <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
     <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
@@ -90,7 +90,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
     <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
@@ -98,7 +98,7 @@
     <LinkIncremental>false</LinkIncremental>
     <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
     <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
@@ -115,7 +115,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(ProjectDir)project\bin\$(TargetName)_$(Platform).dll</Command>
+      <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,7 +135,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(ProjectDir)project\bin\$(TargetName)_$(Platform).dll</Command>
+      <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,7 +151,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(ProjectDir)project\bin\$(TargetName)_$(Platform).dll</Command>
+      <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -171,7 +171,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(ProjectDir)project\bin\$(TargetName)_$(Platform).dll</Command>
+      <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

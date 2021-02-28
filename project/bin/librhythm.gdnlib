@@ -1,16 +1,16 @@
-[entry]
-
-Windows.64="res://bin/librhythm_x64.dll"
-Windows.32="res://bin/librhythm_Win32.dll"
-
-[dependencies]
-
-Windows.64=[  ]
-Windows.32=[  ]
-
 [general]
 
 singleton=false
 load_once=true
 symbol_prefix="godot_"
 reloadable=true
+
+[entry]
+
+Windows.64="res://bin/win_x64/librhythm.dll"
+Windows.32="res://bin/win_x86/librhythm.dll"
+
+[dependencies]
+
+Windows.64=[ "res://bin/win_x64/libaubio-5.dll" ]
+Windows.32=[ "res://bin/win_x86/libaubio-5.dll" ]
