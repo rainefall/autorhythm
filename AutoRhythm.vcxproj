@@ -184,10 +184,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\fmod_sound.c" />
+    <ClCompile Include="src\level_generator.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\test.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\cubic_interpolation_array.h" />
     <ClInclude Include="include\fmod_sound.h" />
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\level_generator.h" />

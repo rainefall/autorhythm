@@ -24,6 +24,9 @@
     <ClCompile Include="src\fmod_sound.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\level_generator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\global.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\fmod_sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cubic_interpolation_array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
