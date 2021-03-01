@@ -12,5 +12,10 @@ func _ready():
 	pass # Replace with function body.
 
 func _on_Button_pressed():
-	$Label.text = str(FMODSound.create("C:\\Users\\Toby\\Music\\06 Section 2 BGM.mp3"))
+	$FileDialog.popup()
+	$FileDialog.rect_position = Vector2(0,0);
+
+
+func _on_FileDialog_file_selected(path):
+	$Label.text = str(FMODSound.create(path))
 	$Label2.text = str(FMODSound.play())
