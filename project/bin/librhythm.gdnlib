@@ -12,5 +12,5 @@ Windows.32="res://bin/win_x86/librhythm.dll"
 
 [dependencies]
 
-Windows.64=[ "res://bin/win_x64/fmod.dll", "res://bin/win_x64/libaubio-5.dll" ]
-Windows.32=[ "res://bin/win_x86/fmod.dll", "res://bin/win_x86/libaubio-5.dll" ]
+Windows.64=[ "res://bin/win_x64/fmod.dll" ]
+Windows.32=[ "res://bin/win_x86/fmod.dll" ]

@@ -11,27 +11,28 @@ __meta__ = {
 [node name="Button" type="Button" parent="."]
 margin_right = 137.0
 margin_bottom = 53.0
-text = "Button"
+text = "Open Song Selection Window"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 35.0
-margin_top = 95.0
-margin_right = 964.0
-margin_bottom = 561.0
+margin_left = 226.0
+margin_top = 20.0
+margin_right = 857.0
+margin_bottom = 72.0
 text = "Sample Text."
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label2" type="Label" parent="."]
-margin_left = 51.874
-margin_top = 193.505
-margin_right = 571.874
-margin_bottom = 348.505
+margin_left = 25.0
+margin_top = 83.0
+margin_right = 1263.0
+margin_bottom = 700.0
 text = "Sample Text"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -46,8 +47,7 @@ mode_overrides_title = false
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav ; WAV Audio Files", "*.mp3 ; MPEG Audio Layer 3 Files", "*.ogg ; OGG Vorbis Audio Files", "*.flac ; FLAC Audio Files", "*.aiff ; AIFF Audio Files", "*.mp2 ; MPEG Audio Layer 2 Files", "*.wma ; Windows Media Audio Files", "*.it ; Impulse Tracker Module Files", "*.mod ; MOD Tracker Files", "*xm ; FastTracker 2 Module Files", "*.mid, *.midi ; MIDI Files" )
-current_dir = "/Users/littl/Desktop/autorhythm/project"
-current_path = "/Users/littl/Desktop/autorhythm/project/"
-[connection signal="resized" from="." to="." method="_on_Base_resized"]
+current_dir = "/Godot/AutoRhythm/project"
+current_path = "/Godot/AutoRhythm/project/"
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]

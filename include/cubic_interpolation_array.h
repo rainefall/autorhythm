@@ -4,28 +4,21 @@
 
 #include "global.h"
 
-typedef union AUTORHYTHM_NUM {
-	int32_t _int;
-	uint32_t unsigned_int;
-	float _float;
-} AUTORHYTHM_NUM;
 
-typedef struct AUTORHYTHM_CUBIC_ARRAY {
-	AUTORHYTHM_NUM* positions;
-	AUTORHYTHM_NUM* data;
-	size_t used;
-	size_t size;
-	uint8_t position_mode : 2;
-	uint8_t data_mode : 2;
-} AUTORHYTHM_CUBIC_ARRAY;
+typedef void* AUTORHYTHM_CUBIC_ARRAY;
 
-// create a new cubic array (*_mode represents int uint or float, 0 to 2 respectively)
-AUTORHYTHM_CUBIC_ARRAY* autorhythm_cubic_array_new(size_t initial_size, uint8_t position_mode, uint8_t data_mode);
+float cubic_interpolation(float v[4], float t);
+
+// create a new cubic array
+AUTORHYTHM_CUBIC_ARRAY autorhythm_cubic_array_new();
 
 // add a single value to a cubic array
-void autorhythm_cubic_array_add_value(AUTORHYTHM_CUBIC_ARRAY* obj, AUTORHYTHM_NUM* position, AUTORHYTHM_NUM* value);
+void autorhythm_cubic_array_add_value(AUTORHYTHM_CUBIC_ARRAY obj, int position, float value);
 
 // get interpolated value from array
-AUTORHYTHM_NUM autorhythm_cubic_array_get_value(AUTORHYTHM_CUBIC_ARRAY* obj, AUTORHYTHM_NUM* position);
+float autorhythm_cubic_array_get_value(AUTORHYTHM_CUBIC_ARRAY obj, int position);
+
+// destroy array object
+void autorhythm_cubic_array_destroy(AUTORHYTHM_CUBIC_ARRAY obj);
 
 #endif

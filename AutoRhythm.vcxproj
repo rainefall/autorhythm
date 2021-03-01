@@ -114,7 +114,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)aubio\lib\$(PlatformTarget);C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libaubio.a;aubio.dll.a;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aubio.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
@@ -136,7 +136,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)aubio\lib\$(PlatformTarget);C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libaubio.a;aubio.dll.a;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aubio.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
@@ -154,7 +154,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)aubio\lib\$(PlatformTarget);C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libaubio.a;aubio.dll.a;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aubio.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
@@ -176,14 +176,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)aubio\lib\$(PlatformTarget);C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libaubio.a;aubio.dll.a;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aubio.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(TargetPath) $(ProjectDir)project\bin\win_$(PlatformTarget)\$(TargetFileName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\cubic_interpolation_array.c" />
+    <ClCompile Include="src\cubic_interpolation_array.cpp" />
     <ClCompile Include="src\fmod_sound.c" />
     <ClCompile Include="src\level_generator.c" />
     <ClCompile Include="src\main.c" />
@@ -191,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\cubic_interpolation_array.h" />
+    <ClInclude Include="include\cubic_interpolation_array.hpp" />
     <ClInclude Include="include\fmod_sound.h" />
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\level_generator.h" />

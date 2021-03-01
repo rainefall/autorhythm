@@ -17,7 +17,7 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options* p_options) {
     // now we can initialise FMOD
     FMOD_System_Create(&fmod_system);
     FMOD_RESULT result = FMOD_System_Init(fmod_system, 512, FMOD_INIT_NORMAL, NULL);
-    printf("FMOD Init result: %d", result);
+    printf("FMOD Init result: %d\n", result);
 }
 
 // terminate GDNative
@@ -52,4 +52,5 @@ void GDN_EXPORT godot_nativescript_init(void* p_handle) {
     // Class : FMODSound
     autorhythm_register_fmod_sound(p_handle);
     // Class : LevelGenerator
+    autorhythm_register_level_generator(p_handle);
 }

@@ -27,7 +27,7 @@
     <ClCompile Include="src\level_generator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cubic_interpolation_array.c">
+    <ClCompile Include="src\cubic_interpolation_array.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\cubic_interpolation_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cubic_interpolation_array.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,22 +6,22 @@
 
 #include "global.h"
 
-typedef struct AUTORHYTHM_BLOCK {
-	int position;
-	int lane;
-} AUTORHYTHM_BLOCK;
+typedef struct AUTORHYTHM_LEVEL_GENERATOR {
+	int min_interval;
+} AUTORHYTHM_LEVEL_GENERATOR;
 
-typedef struct AUTORHYTHM_LEVEL {
-	size_t blocks_s;
-	unsigned int lane_shape_s;
-	char SongHash[256];
-	AUTORHYTHM_BLOCK* blocks;
-	int* lane_shape_position; // storing these separately
-	float* lane_shape_value;
-} AUTORHYTHM_LEVEL;
+// internal level generator function, not exposed to the engine
+godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd);
 
-AUTORHYTHM_LEVEL* autorhythm_generate_level(FMOD_SOUND* snd);
+// constructor for autorhythm level generator in godot
+void* ext_autorhythm_level_generator_new(godot_object* p_instance, void* p_method_data);
+// destructor for autorhythm level generator in godot
+void ext_autorhythm_level_generator_del(godot_object* p_instance, void* p_method_data, void* p_user_data);
 
+// generate level from godot fmodsound object
 godot_variant ext_autorhythm_generate_level(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
+
+// register this very small class with godot
+void autorhythm_register_level_generator(void* p_handle);
 
 #endif
