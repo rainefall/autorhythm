@@ -27,6 +27,9 @@
     <ClCompile Include="src\level_generator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cubic_interpolation_array.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\global.h">

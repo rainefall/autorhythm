@@ -72,32 +72,32 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
-    <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
-    <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
-    <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <SourcePath>E:\Godot\AutoRhythm\src;$(SourcePath)</SourcePath>
-    <IncludePath>E:\Godot\AutoRhythm\include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>librhythm</TargetName>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Godot\AutoRhythm\godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Godot\AutoRhythm\godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Godot\AutoRhythm\godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,7 +168,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Godot\AutoRhythm\godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)godot-headers;$(ProjectDir)aubio\include;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -183,6 +183,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cubic_interpolation_array.c" />
     <ClCompile Include="src\fmod_sound.c" />
     <ClCompile Include="src\level_generator.c" />
     <ClCompile Include="src\main.c" />
