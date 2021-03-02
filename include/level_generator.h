@@ -2,7 +2,7 @@
 #ifndef LEVEL_GENERATOR_H
 #define LEVEL_GENERATOR_H
 
-#define FreqToLane(x) (int)fmin(round(log(0.01 * x + 2.0) - 1.0),2.0)
+#define FreqToLane(x) fmin(round(log(0.01 * x + 2.0) - 1.0),2.0)
 
 #include "global.h"
 

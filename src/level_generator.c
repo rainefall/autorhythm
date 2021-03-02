@@ -14,15 +14,9 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	// array of onsets [position, lane]
 	godot_array onsets;
 	api->godot_array_new(&onsets);
-	godot_array tmp_onset;
-	api->godot_array_new(&tmp_onset);
-	api->godot_array_resize(&tmp_onset, 2);
 	// array of average beats per second at a position [position, value]
 	godot_array lane_shape;
 	api->godot_array_new(&lane_shape);
-	godot_array tmp_lane_shape;
-	api->godot_array_new(&tmp_lane_shape);
-	api->godot_array_resize(&tmp_lane_shape, 2);
 
 	debug_print("created godot arrays\n");
 
@@ -87,26 +81,30 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 				godot_variant position;
 				godot_variant lane;
 				godot_variant onset;
+				godot_array tmp_onset;
+				api->godot_array_new(&tmp_onset);
+				api->godot_array_resize(&tmp_onset, 2);
+
 				api->godot_variant_new_int(&position, (long)aubio_onset_get_last(o));
-				// ^ everything above this WORKS ^
 
 				api->godot_array_set(&tmp_onset, 0, &position);
 				// pick random number for lane if the pitch is too big or small or pick an appropriate lane based on the pitch
-				if (pout->data[0] <= 0.f || pout->data[0] > 5000.f) {
-					api->godot_variant_new_int(&lane, rand() % 3);
+				if (pout->data[0] <= 0.f || pout->data[0] > 5000.f || 1) {
+					api->godot_variant_new_int(&lane, (int64_t)(rand() % 3));
 				}
 				else {
-					api->godot_variant_new_int(&lane, FreqToLane(pout->data[0]));
+					api->godot_variant_new_int(&lane, (int64_t)FreqToLane(pout->data[0]));
 				}
 				api->godot_array_set(&tmp_onset, 1, &lane);
 				api->godot_variant_new_array(&onset, &tmp_onset);
 				// append to the onsets array
 				api->godot_array_append(&onsets, &onset);
 
-				// destroy unused godot variants
+				// destroy unused godot objects
 				api->godot_variant_destroy(&position);
 				api->godot_variant_destroy(&lane);
 				api->godot_variant_destroy(&onset);
+				api->godot_array_destroy(&tmp_onset);
 			}
 
 			// update positions
@@ -116,26 +114,33 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 			// push onsets per minute if approximately 5 seconds have passed
 			if (deltas <= 0) {
 				debug_print("send help\n");
-				deltas = sample_rate * 5000;
+				// create godot objects
 				godot_variant position;
 				godot_variant value;
 				godot_variant variant_tmp_lane_shape;
+				godot_array tmp_lane_shape;
+				api->godot_array_new(&tmp_lane_shape);
+				api->godot_array_resize(&tmp_lane_shape, 2);
 
 				// position
 				api->godot_variant_new_int(&position, pos);
 				api->godot_array_set(&tmp_lane_shape, 0, &position);
 				// value
-				api->godot_variant_new_real(&value, (double)((tempOnsets * 60.f / 5.f) / autorhythm_cubic_array_get_value(tempo, pos)));
+				api->godot_variant_new_real(&value, (double)((tempOnsets / 5.f * 60.f) / autorhythm_cubic_array_get_value(tempo, pos)));
 				api->godot_array_set(&tmp_lane_shape, 1, &value);
 				// append to the lane shape array
-				api->godot_variant_new_array(&variant_tmp_lane_shape, &tmp_onset);
-				api->godot_array_append(&onsets, &variant_tmp_lane_shape);
+				api->godot_variant_new_array(&variant_tmp_lane_shape, &tmp_lane_shape);
+				api->godot_array_append(&lane_shape, &variant_tmp_lane_shape);
 				tempOnsets = 0;
 
-				// destroy unused godot variants
+				// destroy unused godot objects
 				api->godot_variant_destroy(&position);
 				api->godot_variant_destroy(&value);
 				api->godot_variant_destroy(&variant_tmp_lane_shape);
+				api->godot_array_destroy(&tmp_lane_shape);
+
+				// reset timer
+				deltas = sample_rate * 5;
 			}
 
 			// check if reached end of track
@@ -181,9 +186,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	api->godot_variant_destroy(&tmp_variant_key_lane_shape);
 	// arrays
 	api->godot_array_destroy(&onsets);
-	api->godot_array_destroy(&tmp_onset);
 	api->godot_array_destroy(&lane_shape);
-	api->godot_array_destroy(&tmp_lane_shape);
 
 	// destroy cubic array
 	autorhythm_cubic_array_destroy(tempo);
