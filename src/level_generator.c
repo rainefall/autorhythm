@@ -11,9 +11,18 @@ void debug_print(const char* out) {
 godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GENERATOR* settings)
 {
 	// create arrays for storing data
-	// array of onsets [position, lane]
-	godot_array onsets;
-	api->godot_array_new(&onsets);
+
+	// multimesh transform array
+	godot_pool_real_array onset_transforms;
+	api->godot_pool_real_array_new(&onset_transforms);
+	
+	// base transform array, this will never change as the blocks will never have different sizes
+	godot_pool_real_array base_transforms;
+	api->godot_pool_real_array_new(&base_transforms);
+	// generate a 3x3 identity matrix
+	for (int i = 0; i < 9; i++)
+		api->godot_pool_real_array_append(&base_transforms, (godot_real)(i % 4 == 0));
+
 	// array of average beats per second at a position [position, value]
 	godot_array lane_shape;
 	api->godot_array_new(&lane_shape);
@@ -74,37 +83,23 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 			if (aubio_tempo_get_bpm(t) != 0.f)
 				autorhythm_cubic_array_add_value(tempo, pos, aubio_tempo_get_bpm(t));
 
-
 			// push the onset to onsets array
 			if (out->data[0] != 0) {
 				tempOnsets++;
-				godot_variant position;
-				godot_variant lane;
-				godot_variant onset;
-				godot_array tmp_onset;
-				api->godot_array_new(&tmp_onset);
-				api->godot_array_resize(&tmp_onset, 2);
-
-				api->godot_variant_new_int(&position, (long)aubio_onset_get_last(o));
-
-				api->godot_array_set(&tmp_onset, 0, &position);
+				// append base transform for this array
+				api->godot_pool_real_array_append_array(&onset_transforms, &base_transforms);
+				// x position
 				// pick random number for lane if the pitch is too big or small or pick an appropriate lane based on the pitch
 				if (pout->data[0] <= 0.f || pout->data[0] > 5000.f || 1) {
-					api->godot_variant_new_int(&lane, (int64_t)(rand() % 3));
+					api->godot_pool_real_array_append(&onset_transforms, (godot_real)(rand() % 3) * 5.f - 5.f);
 				}
 				else {
-					api->godot_variant_new_int(&lane, (int64_t)FreqToLane(pout->data[0]));
+					api->godot_pool_real_array_append(&onset_transforms, FreqToLane(pout->data[0]));
 				}
-				api->godot_array_set(&tmp_onset, 1, &lane);
-				api->godot_variant_new_array(&onset, &tmp_onset);
-				// append to the onsets array
-				api->godot_array_append(&onsets, &onset);
-
-				// destroy unused godot objects
-				api->godot_variant_destroy(&position);
-				api->godot_variant_destroy(&lane);
-				api->godot_variant_destroy(&onset);
-				api->godot_array_destroy(&tmp_onset);
+				// y position (will always be zero!)
+				api->godot_pool_real_array_append(&onset_transforms, 0.f);
+				// z position
+				api->godot_pool_real_array_append(&onset_transforms, (godot_real)aubio_onset_get_last(o) / 10000.f);
 			}
 
 			// update positions
@@ -113,7 +108,6 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 
 			// push onsets per minute if approximately 5 seconds have passed
 			if (deltas <= 0) {
-				debug_print("send help\n");
 				// create godot objects
 				godot_variant position;
 				godot_variant value;
@@ -165,7 +159,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	api->godot_variant_new_string(&tmp_variant_key_onsets, &tmp_string_key_onsets);
 	api->godot_string_destroy(&tmp_string_key_onsets);
 	// set array in dictionary
-	api->godot_variant_new_array(&tmp_variant_onsets, &onsets);
+	api->godot_variant_new_pool_real_array(&tmp_variant_onsets, &onset_transforms);
 	api->godot_dictionary_set(&dict, &tmp_variant_key_onsets, &tmp_variant_onsets);
 
 	// lane shape
@@ -185,7 +179,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	api->godot_variant_destroy(&tmp_variant_lane_shape);
 	api->godot_variant_destroy(&tmp_variant_key_lane_shape);
 	// arrays
-	api->godot_array_destroy(&onsets);
+	api->godot_pool_real_array_destroy(&onset_transforms);
 	api->godot_array_destroy(&lane_shape);
 
 	// destroy cubic array
