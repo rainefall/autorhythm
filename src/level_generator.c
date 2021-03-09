@@ -91,7 +91,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 				// x position
 				// pick random number for lane if the pitch is too big or small or pick an appropriate lane based on the pitch
 				if (pout->data[0] <= 0.f || pout->data[0] > 5000.f || 1) {
-					api->godot_pool_real_array_append(&onset_transforms, (godot_real)(rand() % 3) * 5.f - 5.f);
+					api->godot_pool_real_array_append(&onset_transforms, (godot_real)(rand() % 3) * 2.f - 2.f);
 				}
 				else {
 					api->godot_pool_real_array_append(&onset_transforms, FreqToLane(pout->data[0]));
@@ -99,7 +99,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 				// y position (will always be zero!)
 				api->godot_pool_real_array_append(&onset_transforms, 0.f);
 				// z position
-				api->godot_pool_real_array_append(&onset_transforms, (godot_real)aubio_onset_get_last(o) / 10000.f);
+				api->godot_pool_real_array_append(&onset_transforms, (godot_real)aubio_onset_get_last(o) / 1000.f);
 			}
 
 			// update positions
