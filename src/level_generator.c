@@ -261,7 +261,8 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 void* ext_autorhythm_level_generator_new(godot_object* p_instance, void* p_method_data)
 {
 	AUTORHYTHM_LEVEL_GENERATOR* obj = (AUTORHYTHM_LEVEL_GENERATOR*)api->godot_alloc(sizeof(AUTORHYTHM_LEVEL_GENERATOR));
-	obj->min_interval = 100;
+	// minimum value for this will be 100, maximum value will be 500
+	obj->min_interval = 150;
 	return (void*)obj;
 }
 

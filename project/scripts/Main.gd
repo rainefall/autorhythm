@@ -7,7 +7,7 @@ func _ready():
 	# load level cache
 	
 	# start menu scene
-	scene = add_child(load("res://scenes/Game.tscn").instance())
+	scene = add_child(load("res://scenes/Menus.tscn").instance())
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
