@@ -99,7 +99,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 				// y position (will always be zero!)
 				api->godot_pool_real_array_append(&onset_transforms, 0.f);
 				// z position
-				api->godot_pool_real_array_append(&onset_transforms, (godot_real)aubio_onset_get_last(o) / 1000.f);
+				api->godot_pool_real_array_append(&onset_transforms, (godot_real)aubio_onset_get_last(o) / 500.f);
 			}
 
 			// update positions

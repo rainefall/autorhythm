@@ -16,5 +16,5 @@ func _process(delta):
 	else:
 		target_lane = 0
 		
-	transform.origin.x = lerp(transform.origin.x, target_lane * -2, 0.25)
-	#transform.origin.z += 44.1 * delta
+	transform.origin.x = lerp(transform.origin.x, target_lane * -2, 0.5)
+	transform.origin.z += 88.2 * delta

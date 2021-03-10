@@ -13,7 +13,7 @@
 #include <fmod.h>
 
 // Godot Engine headers
-// 2007-2021 | Juan Linietsky, Ariel Manzur and contributors 
+// 2007-2021 | Juan Linietsky, Ariel Manzur and Godot contributors 
 #include <gdnative_api_struct.gen.h> // GDNative API struct header
 #include <gdnative/string.h> // godot string
 

@@ -11,8 +11,20 @@ var transform_zero = Transform(Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vect
 # level data, generated from native code
 var lvl: Dictionary
 
+# index of next block that the player can collide with
+var next_block = 0
+
+# score
+var score = 0
+# score multiplier
+var score_multiplier = 1.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# set initial UI values
+	get_node("User Interface/Multiplier").text = "x1.0"
+	get_node("User Interface/Score").text = "0"
+				
 	# load song & generate level
 	#FMODSound.create("E:/Godot/AutoRhythm/project/test.ogg")
 	FMODSound.create("C:/Users/littl/Desktop/autorhythm/project/test.ogg")
@@ -40,6 +52,29 @@ func _ready():
 func remove_block(index):
 	$Blocks.multimesh.set_instance_transform(index,transform_zero)
 
+# Called once every frame
 func _process(_delta):
-	if Input.is_action_pressed("game_left"):
-		remove_block(0)
+	if next_block < lvl["onsets"].size() / 12:
+		if $Player.transform.origin.z > lvl["onsets"][next_block * 12 + 11] + 2:
+			# very much not in range
+			# increase block check counter
+			next_block += 1
+			# reset score multiplier to 1
+			score_multiplier = 1.0
+			
+			# update UI
+			get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
+		elif $Player.transform.origin.z > lvl["onsets"][next_block * 12 + 11] - 2:
+			if $Player.transform.origin.x > lvl["onsets"][next_block * 12 + 9] - 1 && $Player.transform.origin.x < lvl["onsets"][next_block * 12 + 9] + 1:
+				# "remove" block so that the player knows they have hit it
+				remove_block(next_block)
+				# increase score and multiplier
+				score += 10 * score_multiplier
+				if score_multiplier < 4.0:
+					score_multiplier += 0.1
+				# increase block check counter
+				next_block += 1
+				
+				# update UI
+				get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
+				get_node("User Interface/Score").text = str(int(score))
