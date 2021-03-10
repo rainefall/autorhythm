@@ -3,6 +3,7 @@
 // c standard library
 #include <assert.h>
 #include <stdio.h>
+#include <ctype.h>
 
 // aubio [audio analysis library]
 // 2003-2018 | aubio team

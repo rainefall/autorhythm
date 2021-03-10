@@ -81,3 +81,20 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Metadata" type="Label" parent="User Interface"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -640.0
+margin_top = -32.0
+margin_right = 640.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "#ARTIST - #TITLE"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

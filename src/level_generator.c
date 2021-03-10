@@ -8,10 +8,20 @@ void debug_print(const char* out) {
 	api->godot_string_destroy(&str);
 }
 
+void str_toupper(const char* str) {
+	// this is could be the worst thing i have ever written
+	while (*str != 0) {
+		if ((int)*str >= 96) {
+			char buf = (char)toupper((int)*str);
+			memcpy(str, &buf, sizeof(char));
+		}
+		str++;
+	}
+}
+
 godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GENERATOR* settings)
 {
 	// create arrays for storing data
-
 	// multimesh transform array
 	godot_pool_real_array onset_transforms;
 	api->godot_pool_real_array_new(&onset_transforms);
@@ -47,6 +57,42 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	FMOD_Sound_GetDefaults(snd, &sample_rate, NULL);
 	// get bit depth (bits per sample) from audio file, this is required to convert units between samples (aubio) and bytes (fmod)
 	FMOD_Sound_GetFormat(snd, NULL, NULL, NULL, &bit_rate);
+
+	// create metadata strings
+	godot_array metadata;
+	godot_string title;
+	godot_string artist;
+	api->godot_array_new(&metadata);
+	api->godot_string_new(&title);
+	api->godot_string_parse_utf8(&title,"Unknown Title"); // in case the file is not tagged
+	api->godot_string_new(&artist);
+	api->godot_string_parse_utf8(&artist, "Unknown Artist"); // again, in case the file is not tagged
+	// read metadata
+	FMOD_TAG tag;
+	while (FMOD_Sound_GetTag(snd, NULL, -1, &tag) == FMOD_OK)
+	{
+		//str_toupper(tag.name);
+		if (!strcmp(tag.name, "TITLE") || !strcmp(tag.name, "TIT2"))
+		{
+			api->godot_string_parse_utf8_with_len(&title, tag.data, tag.datalen);
+		}
+		if (!strcmp(tag.name, "ARITST") || !strcmp(tag.name, "TPE1"))
+		{
+			api->godot_string_parse_utf8_with_len(&artist, tag.data, tag.datalen);
+		}
+	}
+	// append metadata strings to array
+	godot_variant title_variant;
+	godot_variant artist_variant;
+	api->godot_variant_new_string(&title_variant, &title);
+	api->godot_variant_new_string(&artist_variant, &artist);
+	api->godot_array_append(&metadata, &title_variant);
+	api->godot_array_append(&metadata, &artist_variant);
+	// destroy temporary godot values
+	api->godot_variant_destroy(&title_variant);
+	api->godot_variant_destroy(&artist_variant);
+	api->godot_string_destroy(&title);
+	api->godot_string_destroy(&artist);
 
 	fvec_t* in = new_fvec(hop_size); // input audio buffer
 
@@ -146,11 +192,22 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	debug_print("Successfully generated level! Converting to Godot compliant format\n");
 
 	godot_dictionary dict;
-	godot_string tmp_string_key_onsets, tmp_string_key_lane_shape;
-	godot_variant tmp_variant_key_onsets, tmp_variant_key_lane_shape, tmp_variant_onsets, tmp_variant_lane_shape;
+	godot_string tmp_string_key_onsets, tmp_string_key_lane_shape, tmp_string_key_metadata;
+	godot_variant tmp_variant_key_onsets, tmp_variant_key_lane_shape, tmp_variant_onsets,
+					tmp_variant_lane_shape, tmp_variant_key_metadata, tmp_variant_metadata;
 
 	// godot dictionary, will be returned by this function
 	api->godot_dictionary_new(&dict);
+
+	// metadata
+	// create string for key
+	api->godot_string_new(&tmp_string_key_metadata);
+	api->godot_string_parse_utf8(&tmp_string_key_metadata, "metadata");
+	api->godot_variant_new_string(&tmp_variant_key_metadata, &tmp_string_key_metadata);
+	api->godot_string_destroy(&tmp_string_key_metadata);
+	// set array in dictionary
+	api->godot_variant_new_array(&tmp_variant_metadata, &metadata);
+	api->godot_dictionary_set(&dict, &tmp_variant_key_metadata, &tmp_variant_metadata);
 
 	// onsets
 	// create string for key
@@ -178,9 +235,12 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	api->godot_variant_destroy(&tmp_variant_key_onsets);
 	api->godot_variant_destroy(&tmp_variant_lane_shape);
 	api->godot_variant_destroy(&tmp_variant_key_lane_shape);
+	api->godot_variant_destroy(&tmp_variant_metadata);
+	api->godot_variant_destroy(&tmp_variant_key_metadata);
 	// arrays
 	api->godot_pool_real_array_destroy(&onset_transforms);
 	api->godot_array_destroy(&lane_shape);
+	api->godot_array_destroy(&metadata);
 
 	// destroy cubic array
 	autorhythm_cubic_array_destroy(tempo);

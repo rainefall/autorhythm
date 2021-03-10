@@ -21,13 +21,9 @@ var score_multiplier = 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# set initial UI values
-	get_node("User Interface/Multiplier").text = "x1.0"
-	get_node("User Interface/Score").text = "0"
-				
 	# load song & generate level
 	#FMODSound.create("E:/Godot/AutoRhythm/project/test.ogg")
-	FMODSound.create("C:/Users/littl/Desktop/autorhythm/project/test.ogg")
+	FMODSound.create("C:/Users/littl/Desktop/autorhythm/project/test.mp3")
 	lvl = LevelGenerator.generate_level(FMODSound)
 	
 	$Blocks.multimesh.instance_count = lvl["onsets"].size() / 12
@@ -43,6 +39,11 @@ func _ready():
 							Vector3(lvl["onsets"][offset+6],lvl["onsets"][offset+7],lvl["onsets"][offset+8]),
 							Vector3(lvl["onsets"][offset+9],lvl["onsets"][offset+10],lvl["onsets"][offset+11]))
 		$Blocks.multimesh.set_instance_transform(i, t)
+	
+	# set initial UI values
+	get_node("User Interface/Multiplier").text = "x1.0"
+	get_node("User Interface/Score").text = "0"
+	get_node("User Interface/Metadata").text = lvl["metadata"][1] + " - " + lvl["metadata"][0]
 	
 	# play the music
 	#FMODSound.play()
