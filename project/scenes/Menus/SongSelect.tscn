@@ -6,3 +6,19 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="FileDialog" type="FileDialog" parent="."]
+visible = true
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 0, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+popup_exclusive = true
+window_title = "Open"
+mode = 0
+access = 2
+current_dir = "/Users/littl/Desktop/autorhythm/project"
+current_path = "/Users/littl/Desktop/autorhythm/project/"

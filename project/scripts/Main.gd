@@ -9,7 +9,6 @@ func _ready():
 	# start menu scene
 	scene = add_child(load("res://scenes/Menus.tscn").instance())
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func new_scene(s):
+	remove_child(scene)
+	scene = add_child(load(s).instance())
