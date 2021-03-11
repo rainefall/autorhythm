@@ -1,6 +1,7 @@
 [gd_scene format=2]
 
 [node name="SongSelect" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -11,13 +12,11 @@ __meta__ = {
 visible = true
 anchor_right = 0.5
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 0, 0 )
-size_flags_horizontal = 2
-size_flags_vertical = 2
+margin_top = -3.05176e-05
+size_flags_horizontal = 0
+size_flags_vertical = 0
 popup_exclusive = true
-window_title = "Open"
+window_title = "Open a File"
 mode = 0
 access = 2
 current_dir = "/Users/littl/Desktop/autorhythm/project"

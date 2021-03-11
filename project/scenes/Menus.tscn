@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://fonts/ui_font_m.tres" type="DynamicFont" id=2]
 [ext_resource path="res://fonts/ui_font_l.tres" type="DynamicFont" id=3]
-[ext_resource path="res://scenes/Menus/SongSelect.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Menus/HighScore.tscn" type="PackedScene" id=5]
 
 [node name="Menus" type="Node"]
@@ -94,8 +93,29 @@ __meta__ = {
 [node name="HighScore" parent="." instance=ExtResource( 5 )]
 visible = false
 
-[node name="SongSelect" parent="." instance=ExtResource( 4 )]
+[node name="SongSelect" type="Control" parent="."]
 visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog" type="FileDialog" parent="SongSelect"]
+visible = true
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_top = -3.05176e-05
+rect_min_size = Vector2( 300, 105 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+popup_exclusive = true
+window_title = "Open a File"
+mode = 0
+access = 2
+current_dir = "/Users/littl/Desktop/autorhythm/project"
+current_path = "/Users/littl/Desktop/autorhythm/project/"
 [connection signal="pressed" from="Titlescreen/Buttons/Play" to="." method="_on_Play_pressed"]
+[connection signal="file_selected" from="SongSelect/FileDialog" to="." method="_on_FileDialog_file_selected"]
 
 [editable path="HighScore"]

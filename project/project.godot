@@ -16,10 +16,14 @@ _global_script_class_icons={
 [application]
 
 config/name="AutoRhythm"
-run/main_scene="res://scenes/Root.tscn"
+run/main_scene="res://scenes/Menus.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="tobesoft/AutoRhythm"
 config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Global.gd"
 
 [display]
 
