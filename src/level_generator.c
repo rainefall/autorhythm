@@ -98,6 +98,9 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 
 	// create onset object
 	aubio_onset_t* o = new_aubio_onset("wphase", win_s, hop_size, sample_rate);
+	char buf[32];
+	sprintf_s(buf, 32*sizeof(char), "%f", aubio_onset_get_threshold(o));
+	debug_print(buf);
 	aubio_onset_set_minioi_ms(o, settings->min_interval);
 	fvec_t* out = new_fvec(2); // output
 
@@ -268,7 +271,24 @@ void* ext_autorhythm_level_generator_new(godot_object* p_instance, void* p_metho
 
 void ext_autorhythm_level_generator_del(godot_object* p_instance, void* p_method_data, void* p_user_data)
 {
+	// free the settings struct
 	api->godot_free(p_user_data);
+}
+
+godot_variant ext_autorhythm_level_generator_settings(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args)
+{
+	godot_variant ret;
+	// check if there is an incorrect number of arguments
+	if (p_num_args != 3) {
+		api->godot_variant_new_int(&ret, AUTORHYTHM_ARGUMENT_COUNT_ERROR);
+	}
+	else {
+
+		// cast data pointer
+		AUTORHYTHM_LEVEL_GENERATOR* dat = (AUTORHYTHM_LEVEL_GENERATOR*)p_user_data;
+		dat->min_interval = api->godot_variant_as_int(p_args[0]);
+	}
+	return ret;
 }
 
 godot_variant ext_autorhythm_generate_level(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args)

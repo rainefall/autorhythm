@@ -186,6 +186,14 @@
     <ClCompile Include="src\cubic_interpolation_array.cpp" />
     <ClCompile Include="src\fmod_sound.c" />
     <ClCompile Include="src\level_generator.c" />
+    <ClCompile Include="src\libcrc\crc16.c" />
+    <ClCompile Include="src\libcrc\crc32.c" />
+    <ClCompile Include="src\libcrc\crc8.c" />
+    <ClCompile Include="src\libcrc\crcccitt.c" />
+    <ClCompile Include="src\libcrc\crcdnp.c" />
+    <ClCompile Include="src\libcrc\crckrmit.c" />
+    <ClCompile Include="src\libcrc\crcsick.c" />
+    <ClCompile Include="src\libcrc\nmea-chk.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\test.c" />
   </ItemGroup>
@@ -195,6 +203,7 @@
     <ClInclude Include="include\fmod_sound.h" />
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\level_generator.h" />
+    <ClInclude Include="include\libcrc\checksum.h" />
     <ClInclude Include="include\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

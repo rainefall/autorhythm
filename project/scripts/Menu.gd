@@ -1,10 +1,9 @@
 extends Node
 
 func _on_Play_pressed():
-	$Titlescreen.hide()
-	$SongSelect.show()
-	$SongSelect/FileDialog.popup()
-	$SongSelect/FileDialog.rect_position.y = 0
+	$Titlescreen/FileDialog.popup()
+	$Titlescreen/FileDialog.rect_position.x = 0
+	$Titlescreen/FileDialog.rect_position.y = 0
 
 
 func _on_FileDialog_file_selected(path):

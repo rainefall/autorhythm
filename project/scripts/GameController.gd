@@ -58,8 +58,8 @@ func _process(_delta):
 			
 			# update UI
 			get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
-		elif $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2:
-			if $Player.transform.origin.x > Global.current_lvl["onsets"][next_block * 12 + 9] - 1 && $Player.transform.origin.x < Global.current_lvl["onsets"][next_block * 12 + 9] + 1:
+		elif $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
+			if $Player.transform.origin.x > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player.transform.origin.x < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
 				# "remove" block so that the player knows they have hit it
 				remove_block(next_block)
 				# increase score and multiplier

@@ -10,6 +10,14 @@ typedef struct AUTORHYTHM_LEVEL_GENERATOR {
 	int min_interval;
 } AUTORHYTHM_LEVEL_GENERATOR;
 
+// error codes
+enum AUTORHYTHM_ERROR_CODES {
+	AUTORHYTHM_OK,
+	AUTORHYTHM_VALUE_ERROR,
+	AUTORHYTHM_TYPE_ERROR,
+	AUTORHYTHM_ARGUMENT_COUNT_ERROR
+};
+
 // internal level generator function, not exposed to the engine
 godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd);
 
@@ -17,6 +25,9 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd);
 void* ext_autorhythm_level_generator_new(godot_object* p_instance, void* p_method_data);
 // destructor for autorhythm level generator in godot
 void ext_autorhythm_level_generator_del(godot_object* p_instance, void* p_method_data, void* p_user_data);
+
+// set level generator parameters
+godot_variant ext_autorhythm_level_generator_settings(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
 
 // generate level from godot fmodsound object
 godot_variant ext_autorhythm_generate_level(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);

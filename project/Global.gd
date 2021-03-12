@@ -20,7 +20,7 @@ func load_level(path):
 	current_lvl_path = path
 	
 	# check if a level for this song with matching difficulty settings exists
-	if file.file_exists("user://level_cache/test.arl"):
+	if file.file_exists("user://level_cache/test.arl") and false:
 		file.open("user://level_cache/test.arl", File.READ)
 		var data = {}
 		var text = file.get_as_text()
