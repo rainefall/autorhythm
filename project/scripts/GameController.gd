@@ -48,6 +48,9 @@ func remove_block(index):
 
 # Called once every frame
 func _process(_delta):
+	if sound.channel_position() >= Global.current_lvl["metadata"][2]:
+		get_tree().change_scene("res://scenes/Menus.tscn")
+	
 	if next_block < Global.current_lvl["onsets"].size() / 12:
 		if $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:
 			# very much not in range

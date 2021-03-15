@@ -10,6 +10,9 @@ typedef struct AUTORHYTHM_SOUND {
 	FMOD_CHANNEL* channel;
 } AUTORHYTHM_SOUND;
 
+// returns a hash value for an FMOD sound
+uint32_t fmod_sound_hash(FMOD_SOUND* sound);
+
 // constructor for autorhythm fmod sound in godot
 void* ext_fmod_sound_new(godot_object* p_instance, void* p_method_data);
 // destructor for autorhythm fmod sound in godot
@@ -24,6 +27,12 @@ godot_variant ext_fmod_sound_play(godot_object* p_instance, void* p_method_data,
 godot_variant ext_fmod_sound_pause(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
 // stop fmod sound
 godot_variant ext_fmod_sound_stop(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
+
+// returns the current position in pcm samples
+godot_variant ext_fmod_sound_channel_position(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
+
+// returns a hash value for a *GODOT* FMOD sound object TO GODOT
+godot_variant ext_fmod_sound_hash(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
 
 // register class with godot
 void autorhythm_register_fmod_sound(void* p_handle);

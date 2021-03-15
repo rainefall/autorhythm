@@ -19,8 +19,12 @@ func load_level(path):
 	var file = File.new()
 	current_lvl_path = path
 	
+	var lvl_gen_sound = FMODSound.new()
+	lvl_gen_sound.create(path)
+	var fn = lvl_gen_sound.hash()
+	
 	# check if a level for this song with matching difficulty settings exists
-	if file.file_exists("user://level_cache/test.arl") and false:
+	if file.file_exists("user://level_cache/%s.arl" % fn):
 		file.open("user://level_cache/test.arl", File.READ)
 		var data = {}
 		var text = file.get_as_text()
@@ -29,10 +33,8 @@ func load_level(path):
 		file.close()
 	else:
 		# otherwise we generate the level
-		var lvl_gen_sound = FMODSound.new()
-		lvl_gen_sound.create(path)
 		current_lvl = LevelGenerator.generate_level(lvl_gen_sound)
 		# save it
-		file.open("user://level_cache/test.arl", File.WRITE)
+		file.open("user://level_cache/%s.arl" % fn, File.WRITE)
 		file.store_line(to_json(current_lvl))
 		file.close()

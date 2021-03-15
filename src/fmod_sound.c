@@ -2,6 +2,20 @@
 
 #include <stdio.h>
 
+uint32_t fmod_sound_hash(FMOD_SOUND* sound)
+{
+	// load entire fmod sound into memory
+	unsigned int len;
+	FMOD_Sound_GetLength(sound, &len, FMOD_TIMEUNIT_PCMBYTES);
+	void* buf = (void*)malloc(len);
+	// run libcrc's crc32 on that buffer
+	uint32_t hash = crc_32(buf, len);
+	// delete the buffer
+	free(buf);
+	// return the resulting uint32
+	return hash;
+}
+
 void* ext_fmod_sound_new(godot_object* p_instance, void* p_method_data) {
 	AUTORHYTHM_SOUND* sound_dat = api->godot_alloc(sizeof(AUTORHYTHM_SOUND));
 	// we can't really do much with the sound right now due to the lack of constructor arguments
@@ -102,6 +116,30 @@ godot_variant ext_fmod_sound_stop(godot_object* p_instance, void* p_method_data,
 	return ret;
 }
 
+godot_variant ext_fmod_sound_channel_position(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args)
+{
+	godot_variant ret;
+	AUTORHYTHM_SOUND* sound_dat = (AUTORHYTHM_SOUND*)p_user_data;
+
+	// get position from fmod channel
+	unsigned int pos = -1;
+	FMOD_Channel_GetPosition(sound_dat->channel, &pos, FMOD_TIMEUNIT_PCM);
+	api->godot_variant_new_int(&ret, (int64_t)pos);
+	
+	return ret;
+}
+
+godot_variant ext_fmod_sound_hash(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args)
+{
+	godot_variant ret;
+	AUTORHYTHM_SOUND* sound;
+	sound = (AUTORHYTHM_SOUND*)p_user_data;
+	// get hash of object
+	api->godot_variant_new_int(&ret, fmod_sound_hash(sound->sound));
+	// return it
+	return ret;
+}
+
 void autorhythm_register_fmod_sound(void* p_handle)
 {
 	// references to constructor & destructor
@@ -120,24 +158,36 @@ void autorhythm_register_fmod_sound(void* p_handle)
 	// Method : create
 	// reference to c function 
 	method.method = &ext_fmod_sound_load;
-	// register test method with godot
+	// register method with godot
 	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "create", attributes, method);
 
 	// Method : play
 	// reference to c function 
 	method.method = &ext_fmod_sound_play;
-	// register test method with godot
+	// register method with godot
 	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "play", attributes, method);
 
 	// Method : pause
 	// reference to c function 
 	method.method = &ext_fmod_sound_pause;
-	// register test method with godot
+	// register method with godot
 	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "pause", attributes, method);
 
 	// Method : stop
 	// reference to c function 
 	method.method = &ext_fmod_sound_stop;
-	// register test method with godot
+	// register method with godot
 	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "stop", attributes, method);
+
+	// Method : channel_position
+	// reference to c function
+	method.method = &ext_fmod_sound_channel_position;
+	// register method with godot
+	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "channel_position", attributes, method);
+
+	// Method : hash
+	// reference to c function
+	method.method = &ext_fmod_sound_hash;
+	// register method with godot
+	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "hash", attributes, method);
 }

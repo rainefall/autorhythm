@@ -8,6 +8,8 @@
 
 typedef struct AUTORHYTHM_LEVEL_GENERATOR {
 	int min_interval;
+	double sensitivity;
+	double balance;
 } AUTORHYTHM_LEVEL_GENERATOR;
 
 // error codes
@@ -19,7 +21,7 @@ enum AUTORHYTHM_ERROR_CODES {
 };
 
 // internal level generator function, not exposed to the engine
-godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd);
+godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GENERATOR* settings);
 
 // constructor for autorhythm level generator in godot
 void* ext_autorhythm_level_generator_new(godot_object* p_instance, void* p_method_data);

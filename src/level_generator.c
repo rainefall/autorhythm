@@ -19,6 +19,19 @@ void str_toupper(const char* str) {
 	}
 }
 
+// helper function to make adding things to dictionaries less tedious
+void autorhythm_godot_dictionary_set(godot_dictionary* dict, const char* key, godot_variant* value) {
+	godot_string gdstring_key;
+	godot_variant gdvariant_key;
+	api->godot_string_new(&gdstring_key);
+	api->godot_string_parse_utf8(&gdstring_key, key);
+	api->godot_variant_new_string(&gdvariant_key, &gdstring_key);
+	api->godot_string_destroy(&gdstring_key);
+
+	api->godot_dictionary_set(dict, &gdvariant_key, value);
+}
+
+// internal level generator function, not exposed to the engine
 godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GENERATOR* settings)
 {
 	// create arrays for storing data
@@ -88,6 +101,14 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	api->godot_variant_new_string(&artist_variant, &artist);
 	api->godot_array_append(&metadata, &title_variant);
 	api->godot_array_append(&metadata, &artist_variant);
+
+	// append song length in samples to metadata array
+	godot_variant song_length_variant;
+	unsigned int len;
+	FMOD_Sound_GetLength(snd, &len, FMOD_TIMEUNIT_PCM);
+	api->godot_variant_new_int(&song_length_variant, len);
+	api->godot_array_append(&metadata, &song_length_variant);
+
 	// destroy temporary godot values
 	api->godot_variant_destroy(&title_variant);
 	api->godot_variant_destroy(&artist_variant);
@@ -102,6 +123,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	sprintf_s(buf, 32*sizeof(char), "%f", aubio_onset_get_threshold(o));
 	debug_print(buf);
 	aubio_onset_set_minioi_ms(o, settings->min_interval);
+	aubio_onset_set_threshold(o, settings->sensitivity);
 	fvec_t* out = new_fvec(2); // output
 
 	// create pitch detection object
@@ -117,6 +139,8 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	unsigned int* temp_int = (unsigned int*)malloc(sizeof(unsigned int) * hop_size);
 	// check that we allocated memory for that buffer
 	if (temp_int != NULL) {
+		// go back to the beginning of the file, just in case
+		FMOD_Sound_SeekData(snd, 0);
 		while (1) {
 			// read audio data into aubio vector using fmod
 			FMOD_Sound_ReadData(snd, temp_int, sizeof(unsigned int) * hop_size, &read);
@@ -195,51 +219,31 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	debug_print("Successfully generated level! Converting to Godot compliant format\n");
 
 	godot_dictionary dict;
-	godot_string tmp_string_key_onsets, tmp_string_key_lane_shape, tmp_string_key_metadata;
-	godot_variant tmp_variant_key_onsets, tmp_variant_key_lane_shape, tmp_variant_onsets,
-					tmp_variant_lane_shape, tmp_variant_key_metadata, tmp_variant_metadata;
+	godot_variant tmp_variant_onsets, tmp_variant_lane_shape, tmp_variant_metadata;
 
 	// godot dictionary, will be returned by this function
 	api->godot_dictionary_new(&dict);
 
 	// metadata
-	// create string for key
-	api->godot_string_new(&tmp_string_key_metadata);
-	api->godot_string_parse_utf8(&tmp_string_key_metadata, "metadata");
-	api->godot_variant_new_string(&tmp_variant_key_metadata, &tmp_string_key_metadata);
-	api->godot_string_destroy(&tmp_string_key_metadata);
 	// set array in dictionary
 	api->godot_variant_new_array(&tmp_variant_metadata, &metadata);
-	api->godot_dictionary_set(&dict, &tmp_variant_key_metadata, &tmp_variant_metadata);
+	autorhythm_godot_dictionary_set(&dict, "metadata", &tmp_variant_metadata);
 
 	// onsets
-	// create string for key
-	api->godot_string_new(&tmp_string_key_onsets);
-	api->godot_string_parse_utf8(&tmp_string_key_onsets, "onsets");
-	api->godot_variant_new_string(&tmp_variant_key_onsets, &tmp_string_key_onsets);
-	api->godot_string_destroy(&tmp_string_key_onsets);
 	// set array in dictionary
 	api->godot_variant_new_pool_real_array(&tmp_variant_onsets, &onset_transforms);
-	api->godot_dictionary_set(&dict, &tmp_variant_key_onsets, &tmp_variant_onsets);
+	autorhythm_godot_dictionary_set(&dict, "onsets", &tmp_variant_onsets);
 
 	// lane shape
-	// create string for key
-	api->godot_string_new(&tmp_string_key_lane_shape);
-	api->godot_string_parse_utf8(&tmp_string_key_lane_shape, "shape");
-	api->godot_variant_new_string(&tmp_variant_key_lane_shape, &tmp_string_key_lane_shape);
-	api->godot_string_destroy(&tmp_string_key_lane_shape);
 	// set array in dictionary
 	api->godot_variant_new_array(&tmp_variant_lane_shape, &lane_shape);
-	api->godot_dictionary_set(&dict, &tmp_variant_key_lane_shape, &tmp_variant_lane_shape);
+	autorhythm_godot_dictionary_set(&dict, "shape", &tmp_variant_lane_shape);
 
 	// destroy all remaining godot values (except the dictionary)
 	// variants
 	api->godot_variant_destroy(&tmp_variant_onsets);
-	api->godot_variant_destroy(&tmp_variant_key_onsets);
 	api->godot_variant_destroy(&tmp_variant_lane_shape);
-	api->godot_variant_destroy(&tmp_variant_key_lane_shape);
 	api->godot_variant_destroy(&tmp_variant_metadata);
-	api->godot_variant_destroy(&tmp_variant_key_metadata);
 	// arrays
 	api->godot_pool_real_array_destroy(&onset_transforms);
 	api->godot_array_destroy(&lane_shape);
@@ -266,6 +270,8 @@ void* ext_autorhythm_level_generator_new(godot_object* p_instance, void* p_metho
 	AUTORHYTHM_LEVEL_GENERATOR* obj = (AUTORHYTHM_LEVEL_GENERATOR*)api->godot_alloc(sizeof(AUTORHYTHM_LEVEL_GENERATOR));
 	// minimum value for this will be 100, maximum value will be 500
 	obj->min_interval = 150;
+	// minimum value for this will be ?? maximum value will be 0.4 or 0.3 i will decide later
+	obj->sensitivity = 0.3;
 	return (void*)obj;
 }
 
@@ -287,6 +293,8 @@ godot_variant ext_autorhythm_level_generator_settings(godot_object* p_instance, 
 		// cast data pointer
 		AUTORHYTHM_LEVEL_GENERATOR* dat = (AUTORHYTHM_LEVEL_GENERATOR*)p_user_data;
 		dat->min_interval = api->godot_variant_as_int(p_args[0]);
+		dat->sensitivity = api->godot_variant_as_real(p_args[1]);
+		dat->balance = api->godot_variant_as_real(p_args[2]);
 	}
 	return ret;
 }
@@ -327,6 +335,12 @@ void autorhythm_register_level_generator(void* p_handle)
 	// Method : generate_level
 	// reference to c function 
 	method.method = &ext_autorhythm_generate_level;
-	// register test method with godot
+	// register method with godot
 	nativescript_api->godot_nativescript_register_method(p_handle, "LevelGenerator", "generate_level", attributes, method);
+
+	// Method : set_settings
+	// reference to c function 
+	method.method = &ext_autorhythm_level_generator_settings;
+	// register method with godot
+	nativescript_api->godot_nativescript_register_method(p_handle, "LevelGenerator", "set_settings", attributes, method);
 }

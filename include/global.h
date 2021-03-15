@@ -18,6 +18,10 @@
 #include <gdnative_api_struct.gen.h> // GDNative API struct header
 #include <gdnative/string.h> // godot string
 
+// libCRC
+// ??
+#include "libcrc/checksum.h"
+
 // cubic interpolation array, used to smoothen detected values from aubio
 #include "cubic_interpolation_array.h"
 
