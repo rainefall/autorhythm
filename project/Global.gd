@@ -11,9 +11,34 @@ var current_lvl_path: String
 # level data
 var current_lvl: Dictionary
 
+var game_settings: Dictionary
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var fileops:File = File.new()
+	var dirops:Directory = Directory.new()
+	# make directories for level cache and leaderboard if they dont exist
+	if !dirops.dir_exists("user://level_cache"):
+		dirops.make_dir("user://level_cache")
+	if !dirops.dir_exists("user://local_leaderboard"):
+		dirops.make_dir("user://local_leaderboard")
+		
+	# check if settings file exists
+	if fileops.file_exists("user://game.acf"):
+		# read settings from file
+		fileops.open("user://game.acf", File.READ)
+		var text = fileops.get_as_text()
+		game_settings = parse_json(text)
+		fileops.close()
+	else:
+		# create default settings
+		game_settings = {
+			"foo" : "bar"
+		}
+		# save them to the settings file
+		fileops.open("user://game.acf", File.WRITE)
+		fileops.store_line(to_json(game_settings))
+		fileops.close()
 
 func load_level(path):
 	var file = File.new()
@@ -28,8 +53,7 @@ func load_level(path):
 		file.open("user://level_cache/test.arl", File.READ)
 		var data = {}
 		var text = file.get_as_text()
-		data = parse_json(text)
-		current_lvl = data
+		current_lvl = parse_json(text)
 		file.close()
 	else:
 		# otherwise we generate the level
