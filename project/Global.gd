@@ -50,7 +50,7 @@ func load_level(path):
 	
 	# check if a level for this song with matching difficulty settings exists
 	if file.file_exists("user://level_cache/%s.arl" % fn):
-		file.open("user://level_cache/test.arl", File.READ)
+		file.open("user://level_cache/%s.arl" % fn, File.READ)
 		var data = {}
 		var text = file.get_as_text()
 		current_lvl = parse_json(text)
@@ -62,3 +62,20 @@ func load_level(path):
 		file.open("user://level_cache/%s.arl" % fn, File.WRITE)
 		file.store_line(to_json(current_lvl))
 		file.close()
+
+func save_score(song_id, score, name):
+	var fileops:File = File.new()
+	var leaderboard
+	if fileops.file_exists("user://local_leaderboard/%s.arl" % song_id):
+		fileops.open("user://local_leaderboard/%s.arl" % song_id, File.READ)
+		leaderboard = parse_json(fileops.get_as_text())
+		fileops.close()
+	else:
+		leaderboard = {}
+		
+	leaderboard[name] = score
+	
+	# save the leaderboard
+	fileops.open("user://local_leaderboard/%s.arl" % song_id, File.WRITE)
+	fileops.store_line(to_json(leaderboard))
+	fileops.close()

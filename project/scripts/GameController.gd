@@ -49,6 +49,7 @@ func remove_block(index):
 # Called once every frame
 func _process(_delta):
 	if sound.channel_position() >= Global.current_lvl["metadata"][2]:
+		Global.save_score(sound.hash(), score, "dingus")
 		get_tree().change_scene("res://scenes/Menus.tscn")
 	
 	if next_block < Global.current_lvl["onsets"].size() / 12:

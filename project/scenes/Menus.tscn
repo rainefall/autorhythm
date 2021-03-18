@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://fonts/ui_font_m.tres" type="DynamicFont" id=2]
 [ext_resource path="res://fonts/ui_font_l.tres" type="DynamicFont" id=3]
 [ext_resource path="res://fonts/ui_font_s.tres" type="DynamicFont" id=4]
-[ext_resource path="res://scenes/Menus/HighScore.tscn" type="PackedScene" id=5]
 
 [node name="Menus" type="Node"]
 script = ExtResource( 1 )
@@ -205,10 +204,5 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="HighScore" parent="." instance=ExtResource( 5 )]
-visible = false
 [connection signal="pressed" from="Titlescreen/Buttons/Play" to="." method="_on_Play_pressed"]
 [connection signal="file_selected" from="Titlescreen/FileDialog" to="." method="_on_FileDialog_file_selected"]
-
-[editable path="HighScore"]
