@@ -1,8 +1,54 @@
-[gd_scene format=2]
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://fonts/ui_font_m.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/ui_font_s.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scripts/HighScore.gd" type="Script" id=3]
 
 [node name="HighScore" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Header" type="Label" parent="."]
+anchor_bottom = 0.1
+margin_left = 8.0
+margin_right = 384.0
+custom_fonts/font = ExtResource( 1 )
+text = "Leaderboard: %s - %s"
+valign = 1
+
+[node name="Scores" type="RichTextLabel" parent="."]
+anchor_top = 0.1
+anchor_right = 0.75
+anchor_bottom = 1.0
+margin_left = 8.0
+custom_fonts/normal_font = ExtResource( 2 )
+text = "#SCORES"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" type="Button" parent="."]
+anchor_left = 0.75
+anchor_top = 0.75
+anchor_right = 0.95
+anchor_bottom = 0.85
+text = "Back to Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RetryButton" type="Button" parent="."]
+anchor_left = 0.75
+anchor_top = 0.85
+anchor_right = 0.95
+anchor_bottom = 0.95
+text = "Play Again"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="MenuButton" to="." method="_on_MenuButton_pressed"]
+[connection signal="pressed" from="RetryButton" to="." method="_on_RetryButton_pressed"]

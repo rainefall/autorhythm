@@ -19,6 +19,8 @@ config/name="AutoRhythm"
 run/main_scene="res://scenes/Menus.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="tobesoft/AutoRhythm"
+boot_splash/image="res://splash.png"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 
 [autoload]
@@ -59,6 +61,10 @@ game_right={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":15,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[input_devices]
+
+pointing/emulate_mouse_from_touch=false
 
 [rendering]
 

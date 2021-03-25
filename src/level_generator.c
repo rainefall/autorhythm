@@ -1,5 +1,6 @@
 #include "level_generator.h"
 
+// print to godot's console
 void debug_print(const char* out) {
 	godot_string str;
 	api->godot_string_new(&str);
@@ -8,6 +9,7 @@ void debug_print(const char* out) {
 	api->godot_string_destroy(&str);
 }
 
+// currently unused, potentially unsafe
 void str_toupper(const char* str) {
 	// this is could be the worst thing i have ever written
 	while (*str != 0) {
@@ -289,12 +291,14 @@ godot_variant ext_autorhythm_level_generator_settings(godot_object* p_instance, 
 		api->godot_variant_new_int(&ret, AUTORHYTHM_ARGUMENT_COUNT_ERROR);
 	}
 	else {
-
 		// cast data pointer
 		AUTORHYTHM_LEVEL_GENERATOR* dat = (AUTORHYTHM_LEVEL_GENERATOR*)p_user_data;
 		dat->min_interval = api->godot_variant_as_int(p_args[0]);
 		dat->sensitivity = api->godot_variant_as_real(p_args[1]);
 		dat->balance = api->godot_variant_as_real(p_args[2]);
+
+		// return 0
+		api->godot_variant_new_int(&ret, AUTORHYTHM_OK);
 	}
 	return ret;
 }

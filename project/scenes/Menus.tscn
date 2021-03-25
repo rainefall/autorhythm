@@ -23,9 +23,9 @@ anchor_top = 0.25
 anchor_right = 0.5
 anchor_bottom = 0.25
 margin_left = -192.0
-margin_top = -32.0
+margin_top = -37.5
 margin_right = 192.0
-margin_bottom = 32.0
+margin_bottom = 37.5
 grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 3 )
@@ -143,7 +143,7 @@ custom_fonts/font = ExtResource( 4 )
 text = "Minimum Interval"
 valign = 1
 
-[node name="MInterval_HSlider2" type="HSlider" parent="Titlescreen/GeneratorSettings"]
+[node name="Sensitivity_HSlider" type="HSlider" parent="Titlescreen/GeneratorSettings"]
 anchor_left = 0.1
 anchor_top = 0.6
 anchor_right = 0.4
@@ -153,14 +153,14 @@ margin_top = -16.0
 margin_right = 16.0
 margin_bottom = 16.0
 min_value = 0.1
-max_value = 1.0
+max_value = 0.75
 step = 0.05
 value = 0.3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MInterval_Label2" type="Label" parent="Titlescreen/GeneratorSettings"]
+[node name="Sensitivity_Label" type="Label" parent="Titlescreen/GeneratorSettings"]
 anchor_left = 0.4
 anchor_top = 0.6
 anchor_right = 0.4
@@ -173,7 +173,7 @@ custom_fonts/font = ExtResource( 4 )
 text = "Sensitivity"
 valign = 1
 
-[node name="MInterval_HSlider3" type="HSlider" parent="Titlescreen/GeneratorSettings"]
+[node name="Balance_HSlider" type="HSlider" parent="Titlescreen/GeneratorSettings"]
 anchor_left = 0.1
 anchor_top = 0.7
 anchor_right = 0.4
@@ -182,6 +182,7 @@ margin_left = -16.0
 margin_top = -16.0
 margin_right = 16.0
 margin_bottom = 16.0
+min_value = 0.15
 max_value = 1.0
 step = 0.0
 value = 0.5
@@ -189,7 +190,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MInterval_Label3" type="Label" parent="Titlescreen/GeneratorSettings"]
+[node name="Balance_Label" type="Label" parent="Titlescreen/GeneratorSettings"]
 anchor_left = 0.4
 anchor_top = 0.7
 anchor_right = 0.4
@@ -204,5 +205,142 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Reset" type="Button" parent="Titlescreen/GeneratorSettings"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -144.0
+margin_top = -128.0
+margin_right = -16.0
+margin_bottom = -80.0
+custom_fonts/font = ExtResource( 2 )
+text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Button" parent="Titlescreen/GeneratorSettings"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -144.0
+margin_top = -63.9999
+margin_right = -16.0
+margin_bottom = -15.9999
+custom_fonts/font = ExtResource( 2 )
+text = "Start"
+
+[node name="Label" type="Label" parent="Titlescreen/GeneratorSettings"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_top = 16.0
+margin_right = 192.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 2 )
+text = "Level Generator Settings"
+align = 1
+valign = 1
+
+[node name="Options" type="Panel" parent="Titlescreen"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Save" type="Button" parent="Titlescreen/Options"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -144.0
+margin_top = -144.0
+margin_right = -16.0
+margin_bottom = -88.0
+custom_fonts/font = ExtResource( 2 )
+text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Titlescreen/Options"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -144.0
+margin_top = -72.0
+margin_right = -16.0
+margin_bottom = -16.0
+custom_fonts/font = ExtResource( 2 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerName" type="LineEdit" parent="Titlescreen/Options"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 192.0
+margin_top = -24.0
+margin_right = 256.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 2 )
+text = "PlayerName"
+max_length = 14
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_PlayerName" type="Label" parent="Titlescreen/Options"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 192.0
+margin_top = -72.0
+margin_right = 400.0
+margin_bottom = -24.0
+custom_fonts/font = ExtResource( 2 )
+text = "Default Name"
+valign = 1
+
+[node name="ShowCredits" type="Button" parent="Titlescreen/Options"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -72.0
+margin_right = 144.0
+margin_bottom = -16.0
+custom_fonts/font = ExtResource( 2 )
+text = "Credits"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="Panel" parent="Titlescreen/Options"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Text" type="Label" parent="Titlescreen/Options/Credits"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "AutoRhythm
+
+Godot Engine is licensed under the MIT License
+
+Made with FMOD Studio by Firelight Technologies Pty Ltd.
+
+aubio is licensed under the GNU General Public License version 3
+
+Libcrc is licensed under the MIT License"
+align = 1
+valign = 1
 [connection signal="pressed" from="Titlescreen/Buttons/Play" to="." method="_on_Play_pressed"]
+[connection signal="pressed" from="Titlescreen/Buttons/Options" to="." method="_on_Options_pressed"]
 [connection signal="file_selected" from="Titlescreen/FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="pressed" from="Titlescreen/GeneratorSettings/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="Titlescreen/GeneratorSettings/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="Titlescreen/Options/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="Titlescreen/Options/Back" to="." method="_on_Back_pressed"]

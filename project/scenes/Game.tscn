@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/GameController.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://fonts/ui_font_s.tres" type="DynamicFont" id=3]
 [ext_resource path="res://fonts/ui_font_m.tres" type="DynamicFont" id=4]
+[ext_resource path="res://lane.png" type="Texture" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.298039, 0.945098, 0.231373, 1 )
@@ -18,15 +19,25 @@ is_hemisphere = true
 transform_format = 1
 mesh = SubResource( 2 )
 
-[sub_resource type="CapsuleMesh" id=4]
-
-[sub_resource type="Environment" id=5]
+[sub_resource type="Environment" id=4]
 background_mode = 1
 ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 fog_enabled = true
 fog_color = Color( 0, 0, 0, 1 )
 fog_depth_begin = 128.0
 fog_depth_end = 512.0
+
+[sub_resource type="PlaneMesh" id=6]
+size = Vector2( 8, 1000 )
+
+[sub_resource type="SpatialMaterial" id=7]
+flags_unshaded = true
+albedo_color = Color( 0.443137, 0.976471, 0.572549, 1 )
+albedo_texture = ExtResource( 5 )
+uv1_scale = Vector3( 4, 1, 1 )
+uv1_offset = Vector3( 0.5, 0, 0 )
+
+[sub_resource type="CapsuleMesh" id=5]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -35,17 +46,22 @@ script = ExtResource( 1 )
 material_override = SubResource( 1 )
 multimesh = SubResource( 3 )
 
-[node name="Player" type="MeshInstance" parent="."]
-mesh = SubResource( 4 )
-material/0 = null
-script = ExtResource( 2 )
-
-[node name="Camera" type="Camera" parent="Player"]
+[node name="Camera" type="Camera" parent="."]
 transform = Transform( -1, -1.11444e-07, 3.0619e-07, 0, 0.939693, 0.34202, -3.25841e-07, 0.34202, -0.939693, 0, 5, -8 )
-environment = SubResource( 5 )
+environment = SubResource( 4 )
 fov = 45.0
 near = 4.0
 far = 1000.0
+
+[node name="Lane Grid" type="MeshInstance" parent="Camera"]
+transform = Transform( 1, 2.13225e-15, 5.11591e-13, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, -0.000159988, 163.233, -463.099 )
+mesh = SubResource( 6 )
+material/0 = SubResource( 7 )
+
+[node name="Player" type="MeshInstance" parent="."]
+mesh = SubResource( 5 )
+material/0 = null
+script = ExtResource( 2 )
 
 [node name="User Interface" type="Control" parent="."]
 margin_right = 1280.0

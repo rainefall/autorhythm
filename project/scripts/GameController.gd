@@ -11,6 +11,8 @@ var score = 0
 # score multiplier
 var score_multiplier = 1.0
 
+# object that stores the FMOD Sound and FMOD Channel objects required
+# to play the music
 var sound
 
 # Called when the node enters the scene tree for the first time.
@@ -47,10 +49,13 @@ func remove_block(index):
 	$Blocks.multimesh.set_instance_transform(index,transform_zero)
 
 # Called once every frame
-func _process(_delta):
-	if sound.channel_position() >= Global.current_lvl["metadata"][2]:
-		Global.save_score(sound.hash(), score, "dingus")
-		get_tree().change_scene("res://scenes/Menus.tscn")
+func _process(delta):
+	# move camera
+	$Camera.transform.origin.z = $Player.transform.origin.z - 8
+	
+	if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
+		Global.save_score(score, Global.game_settings["defname"])
+		get_tree().change_scene("res://scenes/highscore.tscn")
 	
 	if next_block < Global.current_lvl["onsets"].size() / 12:
 		if $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:

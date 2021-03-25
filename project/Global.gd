@@ -10,6 +10,8 @@ onready var LevelGenerator = preload("res://bin/scripts/LevelGenerator.gdns").ne
 var current_lvl_path: String
 # level data
 var current_lvl: Dictionary
+# current song id
+var song_id
 
 var game_settings: Dictionary
 
@@ -33,12 +35,24 @@ func _ready():
 	else:
 		# create default settings
 		game_settings = {
-			"foo" : "bar"
+			"generator" : {
+				"min_interval" : 250,
+				"sensitivity" : 0.3,
+				"balance" : 0.5 
+			},
+			"defname" : "Player"
 		}
 		# save them to the settings file
-		fileops.open("user://game.acf", File.WRITE)
-		fileops.store_line(to_json(game_settings))
-		fileops.close()
+		save_settings()
+
+
+func save_settings():
+	var fileops:File = File.new()
+	fileops.open("user://game.acf", File.WRITE)
+	fileops.store_line(to_json(game_settings))
+	fileops.close()
+	
+
 
 func load_level(path):
 	var file = File.new()
@@ -46,24 +60,36 @@ func load_level(path):
 	
 	var lvl_gen_sound = FMODSound.new()
 	lvl_gen_sound.create(path)
-	var fn = lvl_gen_sound.hash()
+	song_id = lvl_gen_sound.hash()
 	
 	# check if a level for this song with matching difficulty settings exists
-	if file.file_exists("user://level_cache/%s.arl" % fn):
-		file.open("user://level_cache/%s.arl" % fn, File.READ)
+	if file.file_exists("user://level_cache/%s.arl" % song_id):
+		file.open("user://level_cache/%s.arl" % song_id, File.READ)
 		var data = {}
 		var text = file.get_as_text()
 		current_lvl = parse_json(text)
 		file.close()
+		# generate new level if settings dont match
+		# this is a very long line of code
+		if current_lvl["generator"]["min_interval"] != game_settings["generator"]["min_interval"] or current_lvl["generator"]["sensitivity"] != game_settings["generator"]["sensitivity"] or current_lvl["generator"]["balance"] != game_settings["generator"]["balance"]:
+			generate_level(lvl_gen_sound, song_id)
 	else:
 		# otherwise we generate the level
-		current_lvl = LevelGenerator.generate_level(lvl_gen_sound)
-		# save it
-		file.open("user://level_cache/%s.arl" % fn, File.WRITE)
-		file.store_line(to_json(current_lvl))
-		file.close()
+		generate_level(lvl_gen_sound, song_id)
 
-func save_score(song_id, score, name):
+
+func generate_level(snd, song_id):
+	var fileops = File.new()
+	# generate level from sound
+	current_lvl = LevelGenerator.generate_level(snd)
+	current_lvl["generator"] = game_settings["generator"]
+	# save it
+	fileops.open("user://level_cache/%s.arl" % song_id, File.WRITE)
+	fileops.store_line(to_json(current_lvl))
+	fileops.close()
+	
+
+func save_score(score, name):
 	var fileops:File = File.new()
 	var leaderboard
 	if fileops.file_exists("user://local_leaderboard/%s.arl" % song_id):
@@ -73,7 +99,7 @@ func save_score(song_id, score, name):
 	else:
 		leaderboard = {}
 		
-	leaderboard[name] = score
+	leaderboard[score] = name
 	
 	# save the leaderboard
 	fileops.open("user://local_leaderboard/%s.arl" % song_id, File.WRITE)
