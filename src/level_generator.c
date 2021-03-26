@@ -89,11 +89,13 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 		//str_toupper(tag.name);
 		if (!strcmp(tag.name, "TITLE") || !strcmp(tag.name, "TIT2"))
 		{
-			api->godot_string_parse_utf8_with_len(&title, tag.data, tag.datalen);
+			if (api->godot_string_parse_utf8_with_len(&title, tag.data, tag.datalen)) // attempt to read utf-8 string into godot_string
+				api->godot_string_new_with_wide_string(&title, tag.data, tag.datalen); // otherwise, it's most likely a wide string, so just directly copy it
 		}
-		if (!strcmp(tag.name, "ARITST") || !strcmp(tag.name, "TPE1"))
+		if (!strcmp(tag.name, "ARTIST") || !strcmp(tag.name, "TPE1"))
 		{
-			api->godot_string_parse_utf8_with_len(&artist, tag.data, tag.datalen);
+			if (api->godot_string_parse_utf8_with_len(&artist, tag.data, tag.datalen)) // attempt to read utf-8 string into godot_string
+				api->godot_string_new_with_wide_string(&artist, tag.data, tag.datalen); // otherwise, it's most likely a wide string, so just directly copy it
 		}
 	}
 	// append metadata strings to array

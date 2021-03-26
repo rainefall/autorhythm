@@ -1,6 +1,7 @@
 #pragma once
 
 // c standard library
+#include <wchar.h>
 #include <assert.h>
 #include <stdio.h>
 #include <ctype.h>
