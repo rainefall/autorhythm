@@ -95,6 +95,27 @@ godot_variant ext_fmod_sound_pause(godot_object* p_instance, void* p_method_data
 	return ret;
 }
 
+godot_variant ext_fmod_sound_unpause(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args)
+{
+	godot_variant ret;
+	AUTORHYTHM_SOUND* sound_dat = (AUTORHYTHM_SOUND*)p_user_data;
+
+	// check if a channel object is present in the sound struct
+	// (there should be no way to call this function without having a channel object but just in case)
+	if (sound_dat->channel != NULL) {
+		// pause fmod channel
+		FMOD_RESULT result = FMOD_Channel_SetPaused(sound_dat->channel, false);
+		// set return value to be the fmod result returned by FMOD_Channel_SetPaused
+		api->godot_variant_new_int(&ret, (int)result);
+	}
+	else {
+		// return 1, which is equivalent to FMOD_ERR_BADCOMMAND
+		api->godot_variant_new_int(&ret, 1);
+	}
+	// return fmod result
+	return ret;
+}
+
 godot_variant ext_fmod_sound_stop(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args)
 {
 	godot_variant ret;
@@ -172,6 +193,12 @@ void autorhythm_register_fmod_sound(void* p_handle)
 	method.method = &ext_fmod_sound_pause;
 	// register method with godot
 	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "pause", attributes, method);
+
+	// Method : unpause
+	// reference to c function 
+	method.method = &ext_fmod_sound_unpause;
+	// register method with godot
+	nativescript_api->godot_nativescript_register_method(p_handle, "FMODSound", "unpause", attributes, method);
 
 	// Method : stop
 	// reference to c function 

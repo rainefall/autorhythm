@@ -15,6 +15,8 @@ var score_multiplier = 1.0
 # to play the music
 var sound
 
+var paused_state = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# load song
@@ -50,34 +52,57 @@ func remove_block(index):
 
 # Called once every frame
 func _process(delta):
-	# move camera
-	$Camera.transform.origin.z = $Player.transform.origin.z - 8
-	
-	if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
-		Global.save_score(score, Global.game_settings["defname"])
-		get_tree().change_scene("res://scenes/highscore.tscn")
-	
-	if next_block < Global.current_lvl["onsets"].size() / 12:
-		if $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:
-			# very much not in range
-			# increase block check counter
-			next_block += 1
-			# reset score multiplier to 1
-			score_multiplier = 1.0
-			
-			# update UI
-			get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
-		elif $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
-			if $Player.transform.origin.x > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player.transform.origin.x < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
-				# "remove" block so that the player knows they have hit it
-				remove_block(next_block)
-				# increase score and multiplier
-				score += 10 * score_multiplier
-				if score_multiplier < 4.0:
-					score_multiplier += 0.1
+	if paused_state:
+		# check for pause button, unpause
+		if Input.is_action_just_pressed("game_pause"):
+			$"User Interface/PauseMenu".hide()
+			sound.unpause()
+			paused_state = false
+	else:
+		# check for pause button, pause
+		if Input.is_action_just_pressed("game_pause"):
+			$"User Interface/PauseMenu".show()
+			sound.pause()
+			paused_state = true
+		
+		# move camera
+		$Camera.transform.origin.z = $Player.transform.origin.z - 8
+		
+		if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
+			Global.save_score(score, Global.game_settings["defname"])
+			get_tree().change_scene("res://scenes/highscore.tscn")
+		
+		if next_block < Global.current_lvl["onsets"].size() / 12:
+			if $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:
+				# very much not in range
 				# increase block check counter
 				next_block += 1
+				# reset score multiplier to 1
+				score_multiplier = 1.0
 				
 				# update UI
 				get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
-				get_node("User Interface/Score").text = str(int(score))
+			elif $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
+				if $Player.transform.origin.x > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player.transform.origin.x < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
+					# "remove" block so that the player knows they have hit it
+					remove_block(next_block)
+					# increase score and multiplier
+					score += 10 * score_multiplier
+					if score_multiplier < 4.0:
+						score_multiplier += 0.1
+					# increase block check counter
+					next_block += 1
+					
+					# update UI
+					get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
+					get_node("User Interface/Score").text = str(int(score))
+
+
+func _on_Resume_pressed():
+	$"User Interface/PauseMenu".hide()
+	sound.unpause()
+	paused_state = false
+
+
+func _on_Exit_pressed():
+	get_tree().change_scene("res://scenes/Menus.tscn")

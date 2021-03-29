@@ -70,8 +70,7 @@ func load_level(path):
 		current_lvl = parse_json(text)
 		file.close()
 		# generate new level if settings dont match
-		# this is a very long line of code
-		if current_lvl["generator"]["min_interval"] != game_settings["generator"]["min_interval"] or current_lvl["generator"]["sensitivity"] != game_settings["generator"]["sensitivity"] or current_lvl["generator"]["balance"] != game_settings["generator"]["balance"]:
+		if current_lvl["generator"] != game_settings["generator"].hash():
 			generate_level(lvl_gen_sound, song_id)
 	else:
 		# otherwise we generate the level
@@ -82,7 +81,7 @@ func generate_level(snd, song_id):
 	var fileops = File.new()
 	# generate level from sound
 	current_lvl = LevelGenerator.generate_level(snd)
-	current_lvl["generator"] = game_settings["generator"]
+	current_lvl["generator"] = game_settings["generator"].hash()
 	# save it
 	fileops.open("user://level_cache/%s.arl" % song_id, File.WRITE)
 	fileops.store_line(to_json(current_lvl))

@@ -25,6 +25,8 @@ godot_variant ext_fmod_sound_load(godot_object* p_instance, void* p_method_data,
 godot_variant ext_fmod_sound_play(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
 // pause fmod sound
 godot_variant ext_fmod_sound_pause(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
+// unpause fmod sound
+godot_variant ext_fmod_sound_unpause(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
 // stop fmod sound
 godot_variant ext_fmod_sound_stop(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args);
 
