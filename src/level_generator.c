@@ -125,7 +125,6 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	aubio_onset_t* o = new_aubio_onset("wphase", win_s, hop_size, sample_rate);
 	char buf[32];
 	sprintf_s(buf, 32*sizeof(char), "%f", aubio_onset_get_threshold(o));
-	debug_print(buf);
 	aubio_onset_set_minioi_ms(o, settings->min_interval);
 	aubio_onset_set_threshold(o, settings->sensitivity);
 	fvec_t* out = new_fvec(2); // output
@@ -138,6 +137,13 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	aubio_tempo_t* t = new_aubio_tempo("default", win_s, hop_size, sample_rate);
 	fvec_t* fout = new_fvec(1);
 
+	debug_print("nightmare nightmare nightmare nightmare");
+
+	// in order to measure how far through the audio file the algorithm is (this is to see if i can get midi files to play)
+	unsigned int pcmbytes = 0u;
+	unsigned int max_pcmbytes;
+	FMOD_Sound_GetLength(snd, &max_pcmbytes, FMOD_TIMEUNIT_PCMBYTES);
+
 	assert(bit_rate == 16); // ????
 	// temporary sound buffer storing audio with integer samples, used to convert audio into floating point samples
 	unsigned int* temp_int = (unsigned int*)malloc(sizeof(unsigned int) * hop_size);
@@ -147,7 +153,8 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 		FMOD_Sound_SeekData(snd, 0);
 		while (1) {
 			// read audio data into aubio vector using fmod
-			FMOD_Sound_ReadData(snd, temp_int, sizeof(unsigned int) * hop_size, &read);
+			FMOD_RESULT r = FMOD_Sound_ReadData(snd, temp_int, sizeof(unsigned int) * hop_size, &read);
+
 			for (int i = 0; i < hop_size; i++) // eeee for loop is inefficient but i do not know how to optimise this!!
 				fvec_set_sample(in, (temp_int[i] - 2147483647) / 32767.0f, i);
 
@@ -214,8 +221,11 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 				deltas = sample_rate * 5;
 			}
 
+			// time through audio file in bytes
+			pcmbytes += read;
+
 			// check if reached end of track
-			if (read != sizeof(unsigned int) * hop_size)
+			if (read != sizeof(unsigned int) * hop_size || pcmbytes > max_pcmbytes)
 				break;
 		}
 	}
