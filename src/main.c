@@ -2,9 +2,12 @@
 
 // initialize GDNative
 void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options* p_options) {
+    // get api struct, used to call godot c api
+    // directly calling godot's c api causes linker errors at compile time as it is linked dynamically at runtime (i think)
+    // so we use this
     api = p_options->api_struct;
 
-    // Now find our extensions.
+    // find our extensions
     for (int i = 0; i < api->num_extensions; i++) {
         switch (api->extensions[i]->type) {
         case GDNATIVE_EXT_NATIVESCRIPT: {
@@ -22,9 +25,11 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options* p_options) {
 
 // terminate GDNative
 void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options* p_options) {
+    // for memory safety reasons
     api = NULL;
     nativescript_api = NULL;
 
+    // release fmod system
     FMOD_System_Release(fmod_system);
 }
 
@@ -49,8 +54,11 @@ void GDN_EXPORT godot_nativescript_init(void* p_handle) {
     // register test method with godot
     nativescript_api->godot_nativescript_register_method(p_handle, "Test", "get_data", attributes, get_data);
 
+
     // Class : FMODSound
     autorhythm_register_fmod_sound(p_handle);
     // Class : LevelGenerator
     autorhythm_register_level_generator(p_handle);
+    // Class : CubicArray
+    autorhythm_register_cubic_array(p_handle);
 }

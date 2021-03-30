@@ -164,10 +164,11 @@ godot_variant ext_fmod_sound_hash(godot_object* p_instance, void* p_method_data,
 void autorhythm_register_fmod_sound(void* p_handle)
 {
 	// references to constructor & destructor
+	// somehow this block of code worked with the wrong create and delete functions attached?
 	godot_instance_create_func init = { NULL, NULL, NULL };
-	init.create_func = &ext_autorhythm_test_new;
+	init.create_func = &ext_fmod_sound_new;
 	godot_instance_destroy_func destroy = { NULL, NULL, NULL };
-	destroy.destroy_func = &ext_autorhythm_test_del;
+	destroy.destroy_func = &ext_fmod_sound_del;
 	// register class with godot
 	nativescript_api->godot_nativescript_register_class(p_handle, "FMODSound", "Reference", init, destroy);
 

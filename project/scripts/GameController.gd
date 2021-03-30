@@ -1,5 +1,8 @@
 extends Node
 
+# "cubic array" used to interpolate values for the colour of the blocks/highway
+var intensity_array
+
 # zero matrix for "removing" a block
 var transform_zero = Transform(Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0))
 
@@ -15,6 +18,7 @@ var score_multiplier = 1.0
 # to play the music
 var sound
 
+# is the game paused or not
 var paused_state = false
 
 # Called when the node enters the scene tree for the first time.
@@ -36,6 +40,10 @@ func _ready():
 							Vector3(Global.current_lvl["onsets"][offset+6],Global.current_lvl["onsets"][offset+7],Global.current_lvl["onsets"][offset+8]),
 							Vector3(Global.current_lvl["onsets"][offset+9],Global.current_lvl["onsets"][offset+10],Global.current_lvl["onsets"][offset+11]))
 		$Blocks.multimesh.set_instance_transform(i, t)
+	
+	# create intensity cubic array
+	intensity_array = Global.CubicArray.new()
+	# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
 	
 	# set initial UI values
 	get_node("User Interface/Multiplier").text = "x1.0"

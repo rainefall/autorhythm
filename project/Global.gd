@@ -5,6 +5,9 @@ extends Node
 onready var FMODSound = preload("res://bin/scripts/FMODSound.gdns")
 # level generator, generates level and stores it as a dictionary
 onready var LevelGenerator = preload("res://bin/scripts/LevelGenerator.gdns").new()
+# cubic array, input values and positions for those values 
+# and get values from any position by interpolating between them
+onready var CubicArray = preload("res://bin/scripts/CubicArray.gdns")
 
 # path to target level
 var current_lvl_path: String
