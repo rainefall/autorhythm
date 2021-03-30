@@ -6,7 +6,8 @@
 [ext_resource path="res://fonts/ui_font_m.tres" type="DynamicFont" id=4]
 [ext_resource path="res://lane.png" type="Texture" id=5]
 [ext_resource path="res://fonts/ui_font_l.tres" type="DynamicFont" id=6]
-[ext_resource path="res://materials/intensity_colour.tres" type="Shader" id=7]
+[ext_resource path="res://shaders/intensity_colour.tres" type="Shader" id=7]
+
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 7 )
