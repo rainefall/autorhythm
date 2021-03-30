@@ -192,30 +192,16 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 
 			// push onsets per minute if approximately 5 seconds have passed
 			if (deltas <= 0) {
-				// create godot objects
-				godot_variant position;
+				// create godot object
 				godot_variant value;
-				godot_variant variant_tmp_lane_shape;
-				godot_array tmp_lane_shape;
-				api->godot_array_new(&tmp_lane_shape);
-				api->godot_array_resize(&tmp_lane_shape, 2);
-
-				// position
-				api->godot_variant_new_int(&position, pos);
-				api->godot_array_set(&tmp_lane_shape, 0, &position);
 				// value
 				api->godot_variant_new_real(&value, (double)((tempOnsets / 5.f * 60.f) / autorhythm_cubic_array_get_value(tempo, pos)));
-				api->godot_array_set(&tmp_lane_shape, 1, &value);
 				// append to the lane shape array
-				api->godot_variant_new_array(&variant_tmp_lane_shape, &tmp_lane_shape);
-				api->godot_array_append(&lane_shape, &variant_tmp_lane_shape);
+				api->godot_array_append(&lane_shape, &value);
 				tempOnsets = 0;
 
 				// destroy unused godot objects
-				api->godot_variant_destroy(&position);
 				api->godot_variant_destroy(&value);
-				api->godot_variant_destroy(&variant_tmp_lane_shape);
-				api->godot_array_destroy(&tmp_lane_shape);
 
 				// reset timer
 				deltas = sample_rate * 5;

@@ -43,7 +43,11 @@ func _ready():
 	
 	# create intensity cubic array
 	intensity_array = Global.CubicArray.new()
-	# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
+	for i in range(0, Global.current_lvl["shape"].size()):
+		# push to intensity array
+		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
+		# value is the onsets per second mapped from 0 to 1, 0 representing lowest in the track 1 representing highest in the track
+		intensity_array.add_value((i+1) * 44100 * 5, (Global.current_lvl["shape"][i] - Global.current_lvl["shape"].min()) / (Global.current_lvl["shape"].max() - Global.current_lvl["shape"].min()))
 	
 	# set initial UI values
 	get_node("User Interface/Multiplier").text = "x1.0"
@@ -60,8 +64,6 @@ func remove_block(index):
 
 # Called once every frame
 func _process(delta):
-	$Blocks.material_override.set_shader_param("Intensity",$Blocks.material_override.get_shader_param("Intensity") + delta)
-	
 	if paused_state:
 		# check for pause button, unpause
 		if Input.is_action_just_pressed("game_pause"):
@@ -74,6 +76,9 @@ func _process(delta):
 			$"User Interface/PauseMenu".show()
 			sound.pause()
 			paused_state = true
+		
+		$Blocks.material_override.set_shader_param("Intensity", intensity_array.get_value(sound.channel_position()))
+		$"Camera/Lane Grid".get_surface_material(0).set_shader_param("Intensity", intensity_array.get_value(sound.channel_position()))
 		
 		# move camera
 		$Camera.transform.origin.z = $Player.transform.origin.z - 8
@@ -97,7 +102,7 @@ func _process(delta):
 					# "remove" block so that the player knows they have hit it
 					remove_block(next_block)
 					# increase score and multiplier
-					score += 10 * score_multiplier
+					score += 10 * intensity_array.get_value(sound.channel_position()) * score_multiplier
 					if score_multiplier < 4.0:
 						score_multiplier += 0.1
 					# increase block check counter
