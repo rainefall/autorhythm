@@ -52,6 +52,8 @@ func remove_block(index):
 
 # Called once every frame
 func _process(delta):
+	$Blocks.material_override.set_shader_param("Intensity",$Blocks.material_override.get_shader_param("Intensity") + delta)
+	
 	if paused_state:
 		# check for pause button, unpause
 		if Input.is_action_just_pressed("game_pause"):
