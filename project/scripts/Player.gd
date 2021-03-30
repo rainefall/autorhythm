@@ -10,14 +10,13 @@ func _process(delta):
 	# check if not paused before running player's game loop
 	if !get_owner().paused_state:
 		# input code
+		target_lane = 0
 		if Input.is_action_pressed("game_left"):
 			keyb = true
-			target_lane = -1
-		elif Input.is_action_pressed("game_right"):
+			target_lane -= 1
+		if Input.is_action_pressed("game_right"):
 			keyb = true
-			target_lane = 1
-		elif keyb:
-			target_lane = 0
+			target_lane += 1
 		
 		# 0.5 represents the intended linear interpolation value at 60 frames per
 		# second, 0.0167 represents the delta time between frames at 60 frames per
