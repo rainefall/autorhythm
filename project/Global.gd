@@ -106,9 +106,7 @@ func save_score(score, name):
 	else:
 		leaderboard = {}
 	
-	var score_rounded = score.floor()	
-	
-	leaderboard[score_rounded] = name
+	leaderboard[floor(score)] = name
 	
 	# save the leaderboard
 	fileops.open("user://local_leaderboard/%s.arl" % song_id, File.WRITE)
