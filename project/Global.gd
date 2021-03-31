@@ -22,6 +22,13 @@ var game_settings: Dictionary
 # is the game currently in 2 player mode
 var two_player_mode = false;
 
+const MAX_SENSITIVITY = 0.75
+const MIN_SENSITIVITY = 0.1
+const MAX_MIN_INTERVAL = 400
+const MIN_MIN_INTERVAL = 150
+const MAX_COLOUR_BALANCE = 1
+const MIN_COLOUR_BALANCE = 0.15
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var fileops:File = File.new()
@@ -96,6 +103,14 @@ func generate_level(snd, song_id):
 	fileops.close()
 	
 
+func difficulty_multiplier():
+	var difficulty_mult = game_settings["generator"]["sensitivity"] / MAX_SENSITIVITY
+	difficulty_mult += MIN_MIN_INTERVAL / game_settings["generator"]["min_interval"] 
+	difficulty_mult += cos((game_settings["generator"]["balance"] - MIN_COLOUR_BALANCE) / (MAX_COLOUR_BALANCE - MIN_COLOUR_BALANCE) * 360) / 3 + 2/3
+	
+	return difficulty_mult
+
+
 func save_score(score, name):
 	var fileops:File = File.new()
 	var leaderboard
@@ -106,7 +121,9 @@ func save_score(score, name):
 	else:
 		leaderboard = {}
 	
-	leaderboard[floor(score)] = name
+	var final_score = floor(score * difficulty_multiplier())
+	
+	leaderboard[final_score] = name
 	
 	# save the leaderboard
 	fileops.open("user://local_leaderboard/%s.arl" % song_id, File.WRITE)
