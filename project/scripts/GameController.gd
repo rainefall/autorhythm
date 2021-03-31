@@ -77,8 +77,8 @@ func _process(delta):
 			sound.pause()
 			paused_state = true
 		
-		$Blocks.material_override.set_shader_param("Intensity", intensity_array.get_value(sound.channel_position()))
-		$"Camera/Lane Grid".get_surface_material(0).set_shader_param("Intensity", intensity_array.get_value(sound.channel_position()))
+		$Blocks.material_override.set_shader_param("Position", intensity_array.get_value(sound.channel_position()))
+		$"Camera/Lane Grid".get_surface_material(0).set_shader_param("Position", intensity_array.get_value(sound.channel_position()))
 		
 		# move camera
 		$Camera.transform.origin.z = $Player.transform.origin.z - 8

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/GameController.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -6,12 +6,15 @@
 [ext_resource path="res://fonts/ui_font_m.tres" type="DynamicFont" id=4]
 [ext_resource path="res://lane.png" type="Texture" id=5]
 [ext_resource path="res://fonts/ui_font_l.tres" type="DynamicFont" id=6]
-[ext_resource path="res://shaders/intensity_colour.tres" type="Shader" id=7]
-
+[ext_resource path="res://intensitycolours.png" type="Texture" id=8]
+[ext_resource path="res://shaders/lut_color.shader" type="Shader" id=9]
 
 [sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 7 )
-shader_param/Intensity = 0.0
+shader = ExtResource( 9 )
+shader_param/position = null
+shader_param/uv_multiplier = Vector2( 1, 1 )
+shader_param/uv_offset = null
+shader_param/lut = ExtResource( 8 )
 
 [sub_resource type="SphereMesh" id=2]
 height = 1.0
@@ -35,9 +38,12 @@ fog_depth_end = 512.0
 size = Vector2( 8, 1000 )
 
 [sub_resource type="ShaderMaterial" id=6]
-shader = ExtResource( 7 )
-shader_param/Intensity = 0.0
-shader_param/Texture = ExtResource( 5 )
+shader = ExtResource( 9 )
+shader_param/position = null
+shader_param/uv_multiplier = Vector2( 4, 1 )
+shader_param/uv_offset = Vector2( 0.5, 0 )
+shader_param/tex = ExtResource( 5 )
+shader_param/lut = ExtResource( 8 )
 
 [sub_resource type="CapsuleMesh" id=7]
 
