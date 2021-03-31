@@ -104,7 +104,7 @@ func _process(delta):
 				score_multiplier = 1.0
 				
 				# increase block counter if not in 2 player mode
-				if !Global.two_player_mode
+				if !Global.two_player_mode:
 					next_block += 1
 				
 				# update UI
