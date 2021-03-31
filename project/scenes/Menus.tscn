@@ -378,6 +378,7 @@ align = 1
 valign = 1
 [connection signal="pressed" from="Titlescreen/Buttons/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="Titlescreen/Buttons/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="Titlescreen/Buttons/Exit" to="." method="_on_Exit_pressed"]
 [connection signal="file_selected" from="Titlescreen/FileDialog" to="." method="_on_FileDialog_file_selected"]
 [connection signal="pressed" from="Titlescreen/GeneratorSettings/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="Titlescreen/GeneratorSettings/Start" to="." method="_on_Start_pressed"]

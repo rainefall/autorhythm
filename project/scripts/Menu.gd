@@ -60,3 +60,8 @@ func _on_Save_pressed():
 	fileops.open("user://game.acf", File.WRITE)
 	fileops.store_line(to_json(Global.game_settings))
 	fileops.close()
+
+
+func _on_Exit_pressed():
+	# exit the game
+	get_tree().quit()
