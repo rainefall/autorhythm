@@ -103,6 +103,10 @@ func _process(delta):
 				# reset score multiplier to 1
 				score_multiplier = 1.0
 				
+				# increase block counter if not in 2 player mode
+				if !Global.two_player_mode
+					next_block += 1
+				
 				# update UI
 				get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
 			elif $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
