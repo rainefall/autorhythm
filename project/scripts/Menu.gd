@@ -12,6 +12,7 @@ func _on_FileDialog_file_selected(path):
 	$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.game_settings["generator"]["min_interval"]
 	$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.game_settings["generator"]["sensitivity"]
 	$Titlescreen/GeneratorSettings/Balance_HSlider.value = Global.game_settings["generator"]["balance"]
+	$Titlescreen/GeneratorSettings/TwoPlayerMode.pressed = Global.two_player_mode
 	$Titlescreen/GeneratorSettings.show()
 
 
@@ -22,6 +23,8 @@ func _on_Reset_pressed():
 
 
 func _on_Start_pressed():
+	# set two player mode
+	Global.two_player_mode = $Titlescreen/GeneratorSettings/TwoPlayerMode.pressed
 	# set generator settings
 	Global.game_settings["generator"]["min_interval"] = $Titlescreen/GeneratorSettings/MInterval_HSlider.value
 	Global.game_settings["generator"]["sensitivity"] = $Titlescreen/GeneratorSettings/Sensitivity_HSlider.value
@@ -31,7 +34,10 @@ func _on_Start_pressed():
 	Global.save_settings()
 	# load level
 	Global.load_level(Global.current_lvl_path)
-	get_tree().change_scene("res://scenes/Game.tscn")
+	if Global.two_player_mode:
+		get_tree().change_scene("res://scenes/Game2P.tscn")
+	else:
+		get_tree().change_scene("res://scenes/Game.tscn")
 
 
 func _on_Options_pressed():

@@ -16,7 +16,11 @@ var current_lvl: Dictionary
 # current song id
 var song_id
 
+# dictionary of settings that are saved to disk
 var game_settings: Dictionary
+# misc temporary settings
+# is the game currently in 2 player mode
+var two_player_mode = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

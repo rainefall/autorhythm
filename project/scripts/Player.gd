@@ -4,6 +4,24 @@ var target_lane = 0;
 
 var keyb = true;
 
+# "origin" of movement
+var origin = 0;
+
+# name of input actions
+var lkey = "game_left";
+var rkey = "game_right";
+
+
+func _ready():
+	if Global.two_player_mode:
+		# add player 2 suffix if this runs on player 2
+		if name == "Player2":
+			lkey += "_2"
+			rkey += "_2"
+			origin = -4
+		else:
+			origin = 4;
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -11,10 +29,10 @@ func _process(delta):
 	if !get_owner().paused_state:
 		# input code
 		target_lane = 0
-		if Input.is_action_pressed("game_left"):
+		if Input.is_action_pressed(lkey):
 			keyb = true
 			target_lane -= 1
-		if Input.is_action_pressed("game_right"):
+		if Input.is_action_pressed(rkey):
 			keyb = true
 			target_lane += 1
 		
@@ -22,7 +40,7 @@ func _process(delta):
 		# second, 0.0167 represents the delta time between frames at 60 frames per
 		# second. these are multiplied by the actual delta time to get a movement
 		# speed that looks the same at all frame rates
-		transform.origin.x = lerp(transform.origin.x, target_lane * -2, (0.5 / 0.0167) * delta)
+		transform.origin.x = lerp(transform.origin.x, origin + target_lane * -2, (0.5 / 0.0167) * delta)
 		# 88.2 is a constant that represents the distance between two onsets in a
 		# song that are exactly one second apart
 		# this is multiplied with delta time to work out the distance that must

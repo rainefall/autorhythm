@@ -11,8 +11,10 @@ var next_block = 0
 
 # score
 var score = 0
+var score2 = 0
 # score multiplier
 var score_multiplier = 1.0
+var score_multiplier2 = 1.0
 
 # object that stores the FMOD Sound and FMOD Channel objects required
 # to play the music
@@ -54,13 +56,16 @@ func _ready():
 	get_node("User Interface/Score").text = "0"
 	get_node("User Interface/Metadata").text = Global.current_lvl["metadata"][1] + " - " + Global.current_lvl["metadata"][0]
 	
+	if Global.two_player_mode:
+		$Blocks2.multimesh = $Blocks.multimesh
+	
 	# play the music
 	sound.play()
 
 # godot doesnt let you directly delete things from an multimesh
 # however, setting the instance's transform to be all zeroes makes it disappear
-func remove_block(index):
-	$Blocks.multimesh.set_instance_transform(index,transform_zero)
+func remove_block(index, mmesh):
+	mmesh.set_instance_transform(index,transform_zero)
 
 # Called once every frame
 func _process(delta):
@@ -77,8 +82,10 @@ func _process(delta):
 			sound.pause()
 			paused_state = true
 		
-		$Blocks.material_override.set_shader_param("Position", intensity_array.get_value(sound.channel_position()))
-		$"Camera/Lane Grid".get_surface_material(0).set_shader_param("Position", intensity_array.get_value(sound.channel_position()))
+		$Blocks.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()))
+		if Global.two_player_mode:
+			$Blocks2.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()))
+		$"Camera/Lane Grid".get_surface_material(0).set_shader_param("position", intensity_array.get_value(sound.channel_position()))
 		
 		# move camera
 		$Camera.transform.origin.z = $Player.transform.origin.z - 8
@@ -88,6 +95,7 @@ func _process(delta):
 			get_tree().change_scene("res://scenes/highscore.tscn")
 		
 		if next_block < Global.current_lvl["onsets"].size() / 12:
+			var hits = 0
 			if $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:
 				# very much not in range
 				# increase block check counter
@@ -98,20 +106,50 @@ func _process(delta):
 				# update UI
 				get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
 			elif $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
-				if $Player.transform.origin.x > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player.transform.origin.x < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
+				if $Player.transform.origin.x - $Player.origin > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player.transform.origin.x - $Player.origin < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
 					# "remove" block so that the player knows they have hit it
-					remove_block(next_block)
+					remove_block(next_block, $Blocks.multimesh)
 					# increase score and multiplier
 					score += 10 * intensity_array.get_value(sound.channel_position()) * score_multiplier
 					if score_multiplier < 4.0:
 						score_multiplier += 0.1
-					# increase block check counter
-					next_block += 1
+					
+					# hit a block
+					hits += 1
 					
 					# update UI
 					get_node("User Interface/Multiplier").text = "x"+str(score_multiplier)
 					get_node("User Interface/Score").text = str(int(score))
-
+					
+			# 2nd player collision checks
+			if Global.two_player_mode:
+				if $Player2.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:
+					# very much not in range
+					# reset score multiplier to 1
+					score_multiplier2 = 1.0
+					
+					# update UI
+					get_node("User Interface/Multiplier2").text = "x"+str(score_multiplier2)
+					
+				elif $Player2.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
+					if $Player2.transform.origin.x - $Player2.origin > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player2.transform.origin.x - $Player2.origin < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
+						# "remove" block so that the player knows they have hit it
+						remove_block(next_block, $Blocks2.multimesh)
+						# increase score and multiplier
+						score2 += 10 * intensity_array.get_value(sound.channel_position()) * score_multiplier2
+						if score_multiplier2 < 4.0:
+							score_multiplier2 += 0.1
+							
+						# hit a block
+						hits += 1
+						
+						# update UI
+						get_node("User Interface/Multiplier2").text = "x"+str(score_multiplier2)
+						get_node("User Interface/Score2").text = str(int(score2))
+						
+			if hits > 0:	
+				# increase block check counter
+				next_block += 1
 
 func _on_Resume_pressed():
 	$"User Interface/PauseMenu".hide()
