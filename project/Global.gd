@@ -47,7 +47,8 @@ func _ready():
 				"sensitivity" : 0.3,
 				"balance" : 0.5 
 			},
-			"defname" : "Player"
+			"defname" : "Player",
+			"defname2" : "Player 2"
 		}
 		# save them to the settings file
 		save_settings()
@@ -104,8 +105,10 @@ func save_score(score, name):
 		fileops.close()
 	else:
 		leaderboard = {}
-		
-	leaderboard[score] = name
+	
+	var score_rounded = score.floor()	
+	
+	leaderboard[score_rounded] = name
 	
 	# save the leaderboard
 	fileops.open("user://local_leaderboard/%s.arl" % song_id, File.WRITE)

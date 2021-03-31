@@ -43,6 +43,7 @@ func _on_Start_pressed():
 func _on_Options_pressed():
 	$Titlescreen/Options.show();
 	$Titlescreen/Options/PlayerName.text = Global.game_settings["defname"]
+	$Titlescreen/Options/PlayerName2.text = Global.game_settings["defname2"]
 
 
 func _on_Back_pressed():
@@ -53,6 +54,7 @@ func _on_Back_pressed():
 func _on_Save_pressed():
 	# change settings dict
 	Global.game_settings["defname"] = $Titlescreen/Options/PlayerName.text
+	Global.game_settings["defname2"] = $Titlescreen/Options/PlayerName2.text
 	# save settings dict
 	var fileops:File = File.new()
 	fileops.open("user://game.acf", File.WRITE)

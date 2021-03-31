@@ -92,14 +92,14 @@ func _process(delta):
 		
 		if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
 			Global.save_score(score, Global.game_settings["defname"])
+			if Global.two_player_mode:
+				Global.save_score(score2, Global.game_settings["defname2"])
 			get_tree().change_scene("res://scenes/highscore.tscn")
 		
 		if next_block < Global.current_lvl["onsets"].size() / 12:
 			var hits = 0
 			if $Player.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] + 2:
 				# very much not in range
-				# increase block check counter
-				next_block += 1
 				# reset score multiplier to 1
 				score_multiplier = 1.0
 				
@@ -130,6 +130,9 @@ func _process(delta):
 					
 					# update UI
 					get_node("User Interface/Multiplier2").text = "x"+str(score_multiplier2)
+					
+					# increase block check counter
+					next_block += 1
 					
 				elif $Player2.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
 					if $Player2.transform.origin.x - $Player2.origin > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player2.transform.origin.x - $Player2.origin < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
