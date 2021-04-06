@@ -61,13 +61,14 @@ material_override = SubResource( 1 )
 multimesh = SubResource( 3 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( -1, -1.11444e-07, 3.0619e-07, 0, 0.939693, 0.34202, -3.25841e-07, 0.34202, -0.939693, 0, 5, -8 )
+transform = Transform( -1, 5.65818e-08, -3.20891e-07, 0, 0.984808, 0.173648, 3.25841e-07, 0.173648, -0.984808, 0, 4, -8 )
 environment = SubResource( 4 )
+fov = 65.0
 near = 4.0
 far = 1000.0
 
 [node name="Lane Grid" type="MeshInstance" parent="Camera"]
-transform = Transform( 1, 2.13225e-15, 5.11591e-13, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 163.233, -463.099 )
+transform = Transform( 1, -9.71083e-15, -4.76837e-07, -8.28019e-08, 0.984808, -0.173648, 4.69593e-07, 0.173648, 0.984808, 0.000234127, 81.3218, -484.235 )
 mesh = SubResource( 5 )
 material/0 = SubResource( 6 )
 
