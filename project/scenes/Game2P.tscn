@@ -56,7 +56,7 @@ material_override = SubResource( 1 )
 multimesh = SubResource( 3 )
 
 [node name="Blocks2" type="MultiMeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
+transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 material_override = SubResource( 1 )
 multimesh = SubResource( 3 )
 

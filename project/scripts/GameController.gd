@@ -139,7 +139,7 @@ func _process(delta):
 					next_block += 1
 					
 				elif $Player2.transform.origin.z > Global.current_lvl["onsets"][next_block * 12 + 11] - 2.5:
-					if $Player2.transform.origin.x - $Player2.origin > Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player2.transform.origin.x - $Player2.origin < Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
+					if $Player2.transform.origin.x - $Player2.origin > -Global.current_lvl["onsets"][next_block * 12 + 9] - 1.5 && $Player2.transform.origin.x - $Player2.origin < -Global.current_lvl["onsets"][next_block * 12 + 9] + 1.5:
 						# "remove" block so that the player knows they have hit it
 						remove_block(next_block, $Blocks2.multimesh)
 						# increase score and multiplier
