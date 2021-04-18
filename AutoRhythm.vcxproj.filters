@@ -54,6 +54,9 @@
     <ClCompile Include="src\libcrc\nmea-chk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\id3v2_image_extract.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\global.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\libcrc\checksum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\id3v2_image_extract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
