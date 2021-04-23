@@ -14,5 +14,7 @@ void vertex() {
 }
 
 void fragment() {
-	ALBEDO = texture(tex, UV).rgb * texture(lut, vec2(position, 0)).rgb;
+	vec3 lum = texture(tex, UV).rgb;
+	ALPHA = lum.r;
+	ALBEDO = lum * texture(lut, vec2(position, 0)).rgb;
 }

@@ -41,6 +41,7 @@ func _process(delta):
 		# second. these are multiplied by the actual delta time to get a movement
 		# speed that looks the same at all frame rates
 		transform.origin.x = lerp(transform.origin.x, origin + target_lane * -2, (0.5 / 0.0167) * delta)
+		
 		# 88.2 is a constant that represents the distance between two onsets in a
 		# song that are exactly one second apart
 		# this is multiplied with delta time to work out the distance that must
@@ -50,6 +51,9 @@ func _process(delta):
 		# on any modern hardware) the game will jump forward, unlike in audiosurf
 		# where the game temporarily increases in speed to catch up with the 
 		# audio playback
+		
+		# stick to the highway curve
+		transform.origin.y = get_parent().height_array.get_value(transform.origin.z)
 
 # touch screen input, does not work on windows but it might work on android?
 # not that i'm porting this to android

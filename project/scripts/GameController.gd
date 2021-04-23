@@ -2,6 +2,8 @@ extends Node
 
 # "cubic array" used to interpolate values for the colour of the blocks/highway
 var intensity_array
+# "cubic array" used to interpolate values for the Y position of blocks
+var height_array
 
 # zero matrix for "removing" a block
 var transform_zero = Transform(Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0),Vector3(0,0,0))
@@ -16,6 +18,9 @@ var score2 = 0
 var score_multiplier = 1.0
 var score_multiplier2 = 1.0
 
+# mesh for the level curve
+var level_mesh: ArrayMesh
+
 # object that stores the FMOD Sound and FMOD Channel objects required
 # to play the music
 var sound
@@ -29,6 +34,43 @@ func _ready():
 	sound = Global.FMODSound.new()
 	sound.create(Global.current_lvl_path)
 	
+	# create intensity/height cubic arrays and level geometry (the curve)
+	intensity_array = Global.CubicArray.new()
+	height_array = Global.CubicArray.new()
+	var h = 0.0
+	var st = SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in range(0, Global.current_lvl["shape"].size()):
+		var normalized = (Global.current_lvl["shape"][i] - Global.current_lvl["shape"].min()) / (Global.current_lvl["shape"].max() - Global.current_lvl["shape"].min())
+		
+		# building level geometry
+		# first tri
+		# 441 = distance travelled in 5 seconds
+		st.add_uv(Vector2(0.5,0))
+		st.add_vertex(Vector3(-4, h, 441 * (i-1)))
+		st.add_uv(Vector2(4.5,0))
+		st.add_vertex(Vector3(4, h, 441 * (i-1)))
+		st.add_uv(Vector2(4.5,0))
+		st.add_vertex(Vector3(4, h - normalized * 50, 441 * i))
+		# new value for h
+		h -= normalized * 50
+		# 441 = distance travelled in 5 seconds
+		st.add_uv(Vector2(0.5,0))
+		st.add_vertex(Vector3(-4, h + normalized * 50, 441 * (i-1)))
+		st.add_uv(Vector2(4.5,0))
+		st.add_vertex(Vector3(4, h, 441 * i))
+		st.add_uv(Vector2(0.5,0))
+		st.add_vertex(Vector3(-4, h, 441 * i))
+		
+		# push to intensity array
+		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
+		# value is the onsets per second mapped from 0 to 1, 0 representing lowest in the track 1 representing highest in the track
+		intensity_array.add_value((i+1) * 44100 * 5, normalized)
+		height_array.add_value(i * 441, h)
+	level_mesh = st.commit()
+	$LevelGeometry.mesh = level_mesh
+	
+	# place blocks
 	$Blocks.multimesh.instance_count = Global.current_lvl["onsets"].size() / 12
 	# currently, this does not work as it sets transform data incorrectly
 	#$Blocks.multimesh.set_as_bulk_array(Global.current_lvl["onsets"])
@@ -41,15 +83,8 @@ func _ready():
 							Vector3(Global.current_lvl["onsets"][offset+3],Global.current_lvl["onsets"][offset+4],Global.current_lvl["onsets"][offset+5]),
 							Vector3(Global.current_lvl["onsets"][offset+6],Global.current_lvl["onsets"][offset+7],Global.current_lvl["onsets"][offset+8]),
 							Vector3(Global.current_lvl["onsets"][offset+9],Global.current_lvl["onsets"][offset+10],Global.current_lvl["onsets"][offset+11]))
+		t.origin.y = height_array.get_value(t.origin.z)
 		$Blocks.multimesh.set_instance_transform(i, t)
-	
-	# create intensity cubic array
-	intensity_array = Global.CubicArray.new()
-	for i in range(0, Global.current_lvl["shape"].size()):
-		# push to intensity array
-		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
-		# value is the onsets per second mapped from 0 to 1, 0 representing lowest in the track 1 representing highest in the track
-		intensity_array.add_value((i+1) * 44100 * 5, (Global.current_lvl["shape"][i] - Global.current_lvl["shape"].min()) / (Global.current_lvl["shape"].max() - Global.current_lvl["shape"].min()))
 	
 	# set initial UI values
 	get_node("User Interface/Multiplier").text = "x1.0"
@@ -85,10 +120,11 @@ func _process(delta):
 		$Blocks.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()))
 		if Global.two_player_mode:
 			$Blocks2.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()))
-		$"Camera/Lane Grid".get_surface_material(0).set_shader_param("position", intensity_array.get_value(sound.channel_position()))
+		$LevelGeometry.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()))
 		
 		# move camera
 		$Camera.transform.origin.z = $Player.transform.origin.z - 8
+		$Camera.transform.origin.y = $Player.transform.origin.y + 3.5
 		
 		if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
 			Global.save_score(score, Global.game_settings["defname"])
