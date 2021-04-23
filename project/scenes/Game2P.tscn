@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scripts/GameController.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -17,35 +17,31 @@ shader_param/uv_offset = null
 shader_param/lut = ExtResource( 8 )
 
 [sub_resource type="SphereMesh" id=2]
-height = 1.0
 radial_segments = 8
 rings = 3
-is_hemisphere = true
 
 [sub_resource type="MultiMesh" id=3]
 transform_format = 1
 mesh = SubResource( 2 )
 
-[sub_resource type="Environment" id=4]
+[sub_resource type="ShaderMaterial" id=4]
+render_priority = -128
+shader = ExtResource( 9 )
+shader_param/position = null
+shader_param/uv_multiplier = Vector2( 1, 1 )
+shader_param/uv_offset = null
+shader_param/tex = ExtResource( 5 )
+shader_param/lut = ExtResource( 8 )
+
+[sub_resource type="CapsuleMesh" id=5]
+
+[sub_resource type="Environment" id=6]
 background_mode = 1
 ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 fog_enabled = true
 fog_color = Color( 0, 0, 0, 1 )
 fog_depth_begin = 128.0
 fog_depth_end = 512.0
-
-[sub_resource type="PlaneMesh" id=5]
-size = Vector2( 16, 1000 )
-
-[sub_resource type="ShaderMaterial" id=6]
-shader = ExtResource( 9 )
-shader_param/position = 0.0
-shader_param/uv_multiplier = Vector2( 8, 1 )
-shader_param/uv_offset = Vector2( 0.5, 0 )
-shader_param/tex = ExtResource( 5 )
-shader_param/lut = ExtResource( 8 )
-
-[sub_resource type="CapsuleMesh" id=7]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -60,29 +56,28 @@ transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 material_override = SubResource( 1 )
 multimesh = SubResource( 3 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -1, 5.65818e-08, -3.20891e-07, 0, 0.984808, 0.173648, 3.25841e-07, 0.173648, -0.984808, 0, 4, -8 )
-environment = SubResource( 4 )
-fov = 65.0
-near = 4.0
-far = 1000.0
-
-[node name="Lane Grid" type="MeshInstance" parent="Camera"]
-transform = Transform( 1, -9.71083e-15, -4.76837e-07, -8.28019e-08, 0.984808, -0.173648, 4.69593e-07, 0.173648, 0.984808, 0.000234127, 81.3218, -484.235 )
-mesh = SubResource( 5 )
-material/0 = SubResource( 6 )
+[node name="LevelGeometry" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+material_override = SubResource( 4 )
 
 [node name="Player" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
-mesh = SubResource( 7 )
+mesh = SubResource( 5 )
 material/0 = null
 script = ExtResource( 2 )
 
 [node name="Player2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
-mesh = SubResource( 7 )
+mesh = SubResource( 5 )
 material/0 = null
 script = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -1, 5.65816e-08, -3.20891e-07, 0, 0.984808, 0.173648, 3.25841e-07, 0.173648, -0.984808, 0, 4, -8 )
+environment = SubResource( 6 )
+fov = 65.0
+near = 4.0
+far = 1000.0
 
 [node name="User Interface" type="Control" parent="."]
 margin_right = 1280.0

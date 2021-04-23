@@ -37,6 +37,12 @@ func _ready():
 	# create intensity/height cubic arrays and level geometry (the curve)
 	intensity_array = Global.CubicArray.new();
 	height_array = Global.CubicArray.new();
+	# vertex x position for building the level geometry 
+	var vertexx;
+	if Global.two_player_mode:
+		vertexx = 8;
+	else:
+		vertexx = 4;
 	var h = 0.0;
 	var st = SurfaceTool.new();
 	st.begin(Mesh.PRIMITIVE_TRIANGLES);
@@ -47,20 +53,20 @@ func _ready():
 		# first tri
 		# 441 = distance travelled in 5 seconds
 		st.add_uv(Vector2(0.5,0));
-		st.add_vertex(Vector3(-4, h, 441 * (i-1)));
-		st.add_uv(Vector2(4.5,0));
-		st.add_vertex(Vector3(4, h, 441 * (i-1)));
-		st.add_uv(Vector2(4.5,0));
-		st.add_vertex(Vector3(4, h - normalized * 50, 441 * i));
+		st.add_vertex(Vector3(-vertexx, h, 441 * (i-1)));
+		st.add_uv(Vector2(vertexx + 0.5,0));
+		st.add_vertex(Vector3(vertexx, h, 441 * (i-1)));
+		st.add_uv(Vector2(vertexx + 0.5,0));
+		st.add_vertex(Vector3(vertexx, h - normalized * 50, 441 * i));
 		# new value for h
 		h -= normalized * 50;
 		# 441 = distance travelled in 5 seconds
 		st.add_uv(Vector2(0.5,0));
-		st.add_vertex(Vector3(-4, h + normalized * 50, 441 * (i-1)));
-		st.add_uv(Vector2(4.5,0));
-		st.add_vertex(Vector3(4, h, 441 * i));
+		st.add_vertex(Vector3(-vertexx, h + normalized * 50, 441 * (i-1)));
+		st.add_uv(Vector2(vertexx + 0.5,0));
+		st.add_vertex(Vector3(vertexx, h, 441 * i));
 		st.add_uv(Vector2(0.5,0));
-		st.add_vertex(Vector3(-4, h, 441 * i));
+		st.add_vertex(Vector3(-vertexx, h, 441 * i));
 		
 		# push to intensity array
 		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
@@ -124,7 +130,9 @@ func _process(delta):
 		
 		# move camera
 		$Camera.transform.origin.z = $Player.transform.origin.z - 8;
-		$Camera.transform.origin.y = $Player.transform.origin.y + 3.5;
+		$Camera.transform.origin.y = $Player.transform.origin.y + 4;
+		var rotation = -10-rad2deg(atan((50 * intensity_array.get_value(sound.channel_position())) / 441))
+		$Camera.set_rotation_degrees(Vector3(rotation,-180,0))
 		
 		if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
 			Global.save_score(score, Global.game_settings["defname"]);
