@@ -37,42 +37,46 @@ func _ready():
 	# create intensity/height cubic arrays and level geometry (the curve)
 	intensity_array = Global.CubicArray.new();
 	height_array = Global.CubicArray.new();
+	var h = 0.0;
+	for i in range(0, Global.current_lvl["shape"].size()):
+		var normalized = (Global.current_lvl["shape"][i] - Global.current_lvl["shape"].min()) / (Global.current_lvl["shape"].max() - Global.current_lvl["shape"].min());
+		h += cos(normalized * PI) * 50;
+		# push to intensity array
+		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
+		# value is the onsets per second mapped from 0 to 1, 0 representing lowest in the track 1 representing highest in the track
+		intensity_array.add_value((i+1) * 44100 * 5, normalized);
+		height_array.add_value(i * 441, h);
+	
+	# building level geometry	
 	# vertex x position for building the level geometry 
 	var vertexx;
 	if Global.two_player_mode:
 		vertexx = 8;
 	else:
 		vertexx = 4;
-	var h = 0.0;
+	# surface tool for building the mesh with a GL1.x style interface	
 	var st = SurfaceTool.new();
 	st.begin(Mesh.PRIMITIVE_TRIANGLES);
-	for i in range(0, Global.current_lvl["shape"].size()):
-		var normalized = (Global.current_lvl["shape"][i] - Global.current_lvl["shape"].min()) / (Global.current_lvl["shape"].max() - Global.current_lvl["shape"].min());
-		
-		# building level geometry
+	# build the mesh
+	var previous = height_array.get_value(-88.1);
+	for i in range(0, Global.current_lvl["metadata"][2] / 44100):
+		var current = height_array.get_value(i * 88.1);
+		# 88.1 = distance travelled in one second
 		# first tri
-		# 441 = distance travelled in 5 seconds
 		st.add_uv(Vector2(0.5,0));
-		st.add_vertex(Vector3(-vertexx, h, 441 * (i-1)));
+		st.add_vertex(Vector3(-vertexx, previous, 88.1 * (i-1)));
 		st.add_uv(Vector2(vertexx + 0.5,0));
-		st.add_vertex(Vector3(vertexx, h, 441 * (i-1)));
+		st.add_vertex(Vector3(vertexx, previous, 88.1 * (i-1)));
 		st.add_uv(Vector2(vertexx + 0.5,0));
-		st.add_vertex(Vector3(vertexx, h - normalized * 50, 441 * i));
-		# new value for h
-		h -= normalized * 50;
-		# 441 = distance travelled in 5 seconds
+		st.add_vertex(Vector3(vertexx, current, 88.1 * i));
+		# second tri
 		st.add_uv(Vector2(0.5,0));
-		st.add_vertex(Vector3(-vertexx, h + normalized * 50, 441 * (i-1)));
+		st.add_vertex(Vector3(-vertexx, previous, 88.1 * (i-1)));
 		st.add_uv(Vector2(vertexx + 0.5,0));
-		st.add_vertex(Vector3(vertexx, h, 441 * i));
+		st.add_vertex(Vector3(vertexx, current, 88.1 * i));
 		st.add_uv(Vector2(0.5,0));
-		st.add_vertex(Vector3(-vertexx, h, 441 * i));
-		
-		# push to intensity array
-		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
-		# value is the onsets per second mapped from 0 to 1, 0 representing lowest in the track 1 representing highest in the track
-		intensity_array.add_value((i+1) * 44100 * 5, normalized);
-		height_array.add_value(i * 441, h);
+		st.add_vertex(Vector3(-vertexx, current, 88.1 * i));
+		previous = current;
 	level_mesh = st.commit();
 	$LevelGeometry.mesh = level_mesh;
 	
@@ -128,17 +132,17 @@ func _process(delta):
 			$Blocks2.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()));
 		$LevelGeometry.material_override.set_shader_param("position", intensity_array.get_value(sound.channel_position()));
 		
-		# move camera
-		$Camera.transform.origin.z = $Player.transform.origin.z - 8;
-		$Camera.transform.origin.y = $Player.transform.origin.y + 4;
-		var rotation = -10-rad2deg(atan((50 * intensity_array.get_value(sound.channel_position())) / 441))
-		$Camera.set_rotation_degrees(Vector3(rotation,-180,0))
-		
 		if sound.channel_position() >= Global.current_lvl["metadata"][2] and next_block >= Global.current_lvl["onsets"].size() / 12:
 			Global.save_score(score, Global.game_settings["defname"]);
 			if Global.two_player_mode:
 				Global.save_score(score2, Global.game_settings["defname2"]);
 			get_tree().change_scene("res://scenes/highscore.tscn");
+		
+		# move camera
+		$Camera.transform.origin.z = $Player.transform.origin.z - 8;
+		$Camera.transform.origin.y = $Player.transform.origin.y + 4;
+		var rotation = -10-rad2deg(atan((50 * intensity_array.get_value(sound.channel_position())) / 441))
+		$Camera.set_rotation_degrees(Vector3(rotation,-180,0))
 		
 		if next_block < Global.current_lvl["onsets"].size() / 12:
 			var hits = 0;
