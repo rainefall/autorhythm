@@ -12,8 +12,8 @@
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 fog_color = Color( 0, 0, 0, 1 )
-fog_depth_begin = 128.0
-fog_depth_end = 512.0
+fog_depth_begin = 1.0
+fog_depth_end = 25.0
 
 [sub_resource type="SpatialMaterial" id=2]
 render_priority = 127
@@ -29,11 +29,12 @@ shader_param/uv_offset = null
 shader_param/lut = ExtResource( 8 )
 
 [sub_resource type="SphereMesh" id=5]
-radial_segments = 8
-rings = 3
+radial_segments = 12
+rings = 16
 
 [sub_resource type="MultiMesh" id=6]
 transform_format = 1
+visible_instance_count = 512
 mesh = SubResource( 5 )
 
 [sub_resource type="ShaderMaterial" id=7]
