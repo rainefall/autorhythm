@@ -40,7 +40,7 @@ func _ready():
 	var h = 0.0;
 	for i in range(0, Global.current_lvl["shape"].size()):
 		var normalized = (Global.current_lvl["shape"][i] - Global.current_lvl["shape"].min()) / (Global.current_lvl["shape"].max() - Global.current_lvl["shape"].min());
-		h += cos(normalized * PI) * 50;
+		h += cos(normalized * PI) * 72;
 		# push to intensity array
 		# intensity values are 1 every 5 seconds (or 1 every 44100 * 5 samples)
 		# value is the onsets per second mapped from 0 to 1, 0 representing lowest in the track 1 representing highest in the track
@@ -139,10 +139,10 @@ func _process(delta):
 			get_tree().change_scene("res://scenes/highscore.tscn");
 		
 		# move camera
-		$Camera.transform.origin.z = $Player.transform.origin.z - 8;
-		$Camera.transform.origin.y = $Player.transform.origin.y + 4;
-		var rotation = -10-rad2deg(atan((50 * intensity_array.get_value(sound.channel_position())) / 441))
-		$Camera.set_rotation_degrees(Vector3(rotation,-180,0))
+		$CameraTrack.transform.origin.z = $Player.transform.origin.z - 8;
+		$CameraTrack.transform.origin.y = $Player.transform.origin.y + 4;
+		var rotation = (height_array.get_value($Player.transform.origin.z+1) - height_array.get_value($Player.transform.origin.z-1)) / 2 * -45
+		$CameraTrack.set_rotation_degrees(Vector3(rotation,0,0))
 		
 		if next_block < Global.current_lvl["onsets"].size() / 12:
 			var hits = 0;

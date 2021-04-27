@@ -50,7 +50,9 @@ shader_param/lut = ExtResource( 8 )
 process_priority = 1000
 script = ExtResource( 1 )
 
-[node name="Camera" type="Camera" parent="."]
+[node name="CameraTrack" type="Spatial" parent="."]
+
+[node name="Camera" type="Camera" parent="CameraTrack"]
 transform = Transform( -1, -5.65816e-08, 3.20891e-07, 0, 0.984808, 0.173648, -3.25841e-07, 0.173648, -0.984808, 0, 3.5, -8 )
 environment = SubResource( 1 )
 fov = 45.0
