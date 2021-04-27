@@ -34,7 +34,6 @@ rings = 16
 
 [sub_resource type="MultiMesh" id=6]
 transform_format = 1
-visible_instance_count = 512
 mesh = SubResource( 5 )
 
 [sub_resource type="ShaderMaterial" id=7]
@@ -53,7 +52,7 @@ script = ExtResource( 1 )
 [node name="CameraTrack" type="Spatial" parent="."]
 
 [node name="Camera" type="Camera" parent="CameraTrack"]
-transform = Transform( -1, -5.65816e-08, 3.20891e-07, 0, 0.984808, 0.173648, -3.25841e-07, 0.173648, -0.984808, 0, 3.5, -8 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, -8 )
 environment = SubResource( 1 )
 fov = 45.0
 near = 4.0

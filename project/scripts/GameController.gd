@@ -141,8 +141,9 @@ func _process(delta):
 		# move camera
 		$CameraTrack.transform.origin.z = $Player.transform.origin.z - 8;
 		$CameraTrack.transform.origin.y = $Player.transform.origin.y + 4;
-		var rotation = (height_array.get_value($Player.transform.origin.z+1) - height_array.get_value($Player.transform.origin.z-1)) / 2 * -45
-		$CameraTrack.set_rotation_degrees(Vector3(rotation,0,0))
+		# rotate camera
+		var rotation = 15-rad2deg(atan((height_array.get_value($Player.transform.origin.z+1) - height_array.get_value($Player.transform.origin.z-1)) / 2));
+		$CameraTrack.set_rotation_degrees(Vector3(rotation,0,0));
 		
 		if next_block < Global.current_lvl["onsets"].size() / 12:
 			var hits = 0;
