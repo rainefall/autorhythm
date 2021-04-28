@@ -1,0 +1,15 @@
+[gd_resource type="Environment" load_steps=3 format=2]
+
+[ext_resource path="res://skybox.png" type="Texture" id=1]
+
+[sub_resource type="PanoramaSky" id=1]
+panorama = ExtResource( 1 )
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_sky_orientation = Basis( 1, 0, 0, 0, 0.996195, -0.0871557, 0, 0.0871557, 0.996195 )
+ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+fog_color = Color( 0, 0, 0, 1 )
+fog_depth_begin = 1.0
+fog_depth_end = 25.0
