@@ -1,11 +1,13 @@
 extends Node;
 
+# play button, opens file select dialog
 func _on_Play_pressed():
 	$Titlescreen/FileDialog.popup();
 	$Titlescreen/FileDialog.rect_position.x = 0;
 	$Titlescreen/FileDialog.rect_position.y = 0;
 
 
+# set current song path and open level generator settings menu
 func _on_FileDialog_file_selected(path):
 	Global.current_lvl_path = path;
 	# open generator settings screen
@@ -16,12 +18,14 @@ func _on_FileDialog_file_selected(path):
 	$Titlescreen/GeneratorSettings.show();
 
 
+# reset level generator sliders to their previous position
 func _on_Reset_pressed():
 	$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.game_settings["generator"]["min_interval"];
 	$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.game_settings["generator"]["sensitivity"];
 	$Titlescreen/GeneratorSettings/Balance_HSlider.value = Global.game_settings["generator"]["balance"];
 
 
+# send level generator settings to level generator & load/generate the level, then play the game
 func _on_Start_pressed():
 	# set two player mode
 	Global.two_player_mode = $Titlescreen/GeneratorSettings/TwoPlayerMode.pressed;
@@ -34,23 +38,26 @@ func _on_Start_pressed():
 	Global.save_settings();
 	# load level
 	Global.load_level(Global.current_lvl_path);
+	# open game scene for 1 or 2 players depending on the setting
 	if Global.two_player_mode:
 		get_tree().change_scene("res://scenes/Game2P.tscn");
 	else:
 		get_tree().change_scene("res://scenes/Game.tscn");
 
 
+# Open options screen
 func _on_Options_pressed():
 	$Titlescreen/Options.show();
 	$Titlescreen/Options/PlayerName.text = Global.game_settings["defname"];
 	$Titlescreen/Options/PlayerName2.text = Global.game_settings["defname2"];
 
 
+# Close options screen
 func _on_Back_pressed():
-	# close options window
 	$Titlescreen/Options.hide();
 
 
+# Save options
 func _on_Save_pressed():
 	# change settings dict
 	Global.game_settings["defname"] = $Titlescreen/Options/PlayerName.text;
@@ -62,6 +69,6 @@ func _on_Save_pressed():
 	fileops.close();
 
 
+# Exit the game
 func _on_Exit_pressed():
-	# exit the game
 	get_tree().quit();

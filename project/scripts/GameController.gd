@@ -60,22 +60,25 @@ func _ready():
 	# build the mesh
 	var previous = height_array.get_value(-88.1);
 	for i in range(0, Global.current_lvl["metadata"][2] / 44100):
-		var current = height_array.get_value(i * 88.1);
 		# 88.1 = distance travelled in one second
+		# build one quad
+		# get the current height at this quad's position
+		var current = height_array.get_value(i * 88.1);
 		# first tri
-		st.add_uv(Vector2(0.5,0));
+		st.add_uv(Vector2(0,0));
 		st.add_vertex(Vector3(-vertexx, previous, 88.1 * (i-1)));
-		st.add_uv(Vector2(vertexx + 0.5,0));
+		st.add_uv(Vector2(vertexx,0));
 		st.add_vertex(Vector3(vertexx, previous, 88.1 * (i-1)));
-		st.add_uv(Vector2(vertexx + 0.5,0));
+		st.add_uv(Vector2(vertexx,0));
 		st.add_vertex(Vector3(vertexx, current, 88.1 * i));
 		# second tri
-		st.add_uv(Vector2(0.5,0));
+		st.add_uv(Vector2(0,0));
 		st.add_vertex(Vector3(-vertexx, previous, 88.1 * (i-1)));
-		st.add_uv(Vector2(vertexx + 0.5,0));
+		st.add_uv(Vector2(vertexx,0));
 		st.add_vertex(Vector3(vertexx, current, 88.1 * i));
-		st.add_uv(Vector2(0.5,0));
+		st.add_uv(Vector2(0,0));
 		st.add_vertex(Vector3(-vertexx, current, 88.1 * i));
+		# previous height (for the next quad) = current height (for this quad)
 		previous = current;
 	level_mesh = st.commit();
 	$LevelGeometry.mesh = level_mesh;
@@ -203,15 +206,18 @@ func _process(delta):
 						get_node("User Interface/Multiplier2").text = "x"+str(score_multiplier2);
 						get_node("User Interface/Score2").text = str(int(score2));
 						
-			if hits > 0:	
+			if hits > 0:
 				# increase block check counter
 				next_block += 1;
 
+
+# resume the game from the pause menu
 func _on_Resume_pressed():
 	$"User Interface/PauseMenu".hide();
 	sound.unpause();
 	paused_state = false;
 
 
+# exit to menus from the pause menu
 func _on_Exit_pressed():
 	get_tree().change_scene("res://scenes/Menus.tscn");

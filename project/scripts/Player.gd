@@ -18,9 +18,14 @@ func _ready():
 		if name == "Player2":
 			lkey += "_2";
 			rkey += "_2";
-			origin = -4;
+			origin = -4; 	# x origin on the RIGHT
+							# godot uses right handed coordinates so this is
+							# technically the left but since forward in the
+							# game is Z+ (which would normally be back)
+							# i am calling it the right
 		else:
-			origin = 4;
+			origin = 4; 	# x origin on the LEFT
+							# i do not need to explain why again
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

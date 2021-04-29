@@ -21,9 +21,11 @@ func _ready():
 		$Scores.text = scoretext;
 
 
+# retry this song
 func _on_RetryButton_pressed():
 	get_tree().change_scene("res://scenes/Game.tscn");
 
 
+# return to the main menu
 func _on_MenuButton_pressed():
 	get_tree().change_scene("res://scenes/Menus.tscn");
