@@ -37,6 +37,7 @@ shader_param/lut = ExtResource( 8 )
 [sub_resource type="CapsuleMesh" id=5]
 
 [node name="Game" type="Node"]
+process_priority = 1000
 script = ExtResource( 1 )
 
 [node name="CameraTrack" type="Spatial" parent="."]
