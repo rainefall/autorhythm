@@ -18,8 +18,8 @@ shader_param/uv_offset = null
 shader_param/lut = ExtResource( 8 )
 
 [sub_resource type="SphereMesh" id=2]
-radial_segments = 8
-rings = 3
+radial_segments = 12
+rings = 16
 
 [sub_resource type="MultiMesh" id=3]
 transform_format = 1
