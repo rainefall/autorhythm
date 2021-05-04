@@ -23,7 +23,10 @@ func _ready():
 
 # retry this song
 func _on_RetryButton_pressed():
-	get_tree().change_scene("res://scenes/Game.tscn");
+	if Global.two_player_mode:
+		get_tree().change_scene("res://scenes/Game2P.tscn");
+	else:
+		get_tree().change_scene("res://scenes/Game.tscn");
 
 
 # return to the main menu
