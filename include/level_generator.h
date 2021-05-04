@@ -9,7 +9,6 @@
 typedef struct AUTORHYTHM_LEVEL_GENERATOR {
 	int min_interval;
 	double sensitivity;
-	double balance;
 } AUTORHYTHM_LEVEL_GENERATOR;
 
 // error codes

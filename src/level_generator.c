@@ -285,7 +285,7 @@ godot_variant ext_autorhythm_level_generator_settings(godot_object* p_instance, 
 {
 	godot_variant ret;
 	// check if there is an incorrect number of arguments
-	if (p_num_args != 3) {
+	if (p_num_args != 2) {
 		api->godot_variant_new_int(&ret, AUTORHYTHM_ARGUMENT_COUNT_ERROR);
 	}
 	else {
@@ -293,7 +293,6 @@ godot_variant ext_autorhythm_level_generator_settings(godot_object* p_instance, 
 		AUTORHYTHM_LEVEL_GENERATOR* dat = (AUTORHYTHM_LEVEL_GENERATOR*)p_user_data;
 		dat->min_interval = api->godot_variant_as_int(p_args[0]);
 		dat->sensitivity = api->godot_variant_as_real(p_args[1]);
-		dat->balance = api->godot_variant_as_real(p_args[2]);
 
 		// return 0
 		api->godot_variant_new_int(&ret, AUTORHYTHM_OK);

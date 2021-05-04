@@ -173,39 +173,6 @@ custom_fonts/font = ExtResource( 4 )
 text = "Sensitivity"
 valign = 1
 
-[node name="Balance_HSlider" type="HSlider" parent="Titlescreen/GeneratorSettings"]
-anchor_left = 0.1
-anchor_top = 0.7
-anchor_right = 0.4
-anchor_bottom = 0.7
-margin_left = -16.0
-margin_top = -16.0
-margin_right = 16.0
-margin_bottom = 16.0
-min_value = 0.15
-max_value = 1.0
-step = 0.0
-value = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Balance_Label" type="Label" parent="Titlescreen/GeneratorSettings"]
-anchor_left = 0.4
-anchor_top = 0.7
-anchor_right = 0.4
-anchor_bottom = 0.7
-margin_left = 32.0
-margin_top = -12.5
-margin_right = 128.0
-margin_bottom = 12.5
-custom_fonts/font = ExtResource( 4 )
-text = "Colour Balance"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Reset" type="Button" parent="Titlescreen/GeneratorSettings"]
 anchor_left = 1.0
 anchor_top = 1.0

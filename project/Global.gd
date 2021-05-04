@@ -53,8 +53,7 @@ func _ready():
 		game_settings = {
 			"generator" : {
 				"min_interval" : 250,
-				"sensitivity" : 0.3,
-				"balance" : 0.5 
+				"sensitivity" : 0.3
 			},
 			"defname" : "Player",
 			"defname2" : "Player 2"
@@ -114,7 +113,6 @@ func generate_level(snd, song_id):
 func difficulty_multiplier():
 	var difficulty_mult = game_settings["generator"]["sensitivity"] / MAX_SENSITIVITY;
 	difficulty_mult += MIN_MIN_INTERVAL / game_settings["generator"]["min_interval"];
-	difficulty_mult += cos((game_settings["generator"]["balance"] - MIN_COLOUR_BALANCE) / (MAX_COLOUR_BALANCE - MIN_COLOUR_BALANCE) * 360) / 3 + 2/3;
 	return difficulty_mult;
 
 

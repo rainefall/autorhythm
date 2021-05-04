@@ -13,7 +13,6 @@ func _on_FileDialog_file_selected(path):
 	# open generator settings screen
 	$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.game_settings["generator"]["min_interval"];
 	$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.game_settings["generator"]["sensitivity"];
-	$Titlescreen/GeneratorSettings/Balance_HSlider.value = Global.game_settings["generator"]["balance"];
 	$Titlescreen/GeneratorSettings/TwoPlayerMode.pressed = Global.two_player_mode;
 	$Titlescreen/GeneratorSettings.show();
 
@@ -22,7 +21,6 @@ func _on_FileDialog_file_selected(path):
 func _on_Reset_pressed():
 	$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.game_settings["generator"]["min_interval"];
 	$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.game_settings["generator"]["sensitivity"];
-	$Titlescreen/GeneratorSettings/Balance_HSlider.value = Global.game_settings["generator"]["balance"];
 
 
 # send level generator settings to level generator & load/generate the level, then play the game
@@ -32,8 +30,7 @@ func _on_Start_pressed():
 	# set generator settings
 	Global.game_settings["generator"]["min_interval"] = $Titlescreen/GeneratorSettings/MInterval_HSlider.value;
 	Global.game_settings["generator"]["sensitivity"] = $Titlescreen/GeneratorSettings/Sensitivity_HSlider.value;
-	Global.game_settings["generator"]["balance"] = $Titlescreen/GeneratorSettings/Balance_HSlider.value;
-	Global.LevelGenerator.set_settings(Global.game_settings["generator"]["min_interval"], 0.76-Global.game_settings["generator"]["sensitivity"], Global.game_settings["generator"]["balance"]);
+	Global.LevelGenerator.set_settings(Global.game_settings["generator"]["min_interval"], 0.76-Global.game_settings["generator"]["sensitivity"]);
 	# save generator settings
 	Global.save_settings();
 	# load level
