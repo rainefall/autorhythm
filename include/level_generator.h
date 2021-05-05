@@ -6,18 +6,11 @@
 
 #include "global.h"
 
+// level generator settings struct
 typedef struct AUTORHYTHM_LEVEL_GENERATOR {
 	int min_interval;
 	double sensitivity;
 } AUTORHYTHM_LEVEL_GENERATOR;
-
-// error codes
-enum AUTORHYTHM_ERROR_CODES {
-	AUTORHYTHM_OK,
-	AUTORHYTHM_VALUE_ERROR,
-	AUTORHYTHM_TYPE_ERROR,
-	AUTORHYTHM_ARGUMENT_COUNT_ERROR
-};
 
 // internal level generator function, not exposed to the engine
 godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GENERATOR* settings);

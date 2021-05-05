@@ -99,8 +99,8 @@ window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav ; WAV Audio Files", "*.mp3 ; MPEG Audio Layer 3 Files", "*.ogg ; OGG Vorbis Audio Files", "*.flac ; FLAC Audio Files", "*.aiff ; AIFF Audio Files", "*.mp2 ; MPEG Audio Layer 2 Files", "*.wma ; Windows Media Audio Files", "*.it ; Impulse Tracker Module Files", "*.mod ; MOD Tracker Files", "*xm ; FastTracker 2 Module Files", "*.mid, *.midi ; MIDI Files" )
-current_dir = "/Godot/AutoRhythm/project"
-current_path = "/Godot/AutoRhythm/project/"
+current_dir = "/Users/littl/Desktop/autorhythm/project"
+current_path = "/Users/littl/Desktop/autorhythm/project/"
 __meta__ = {
 "_edit_use_anchors_": true
 }

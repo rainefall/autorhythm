@@ -3,9 +3,12 @@
 // print to godot's console
 void debug_print(const char* out) {
 	godot_string str;
+	// create new gdstring
 	api->godot_string_new(&str);
 	api->godot_string_parse_utf8(&str, out);
+	// print gdstring
 	api->godot_print(&str);
+	// destroy gdstring
 	api->godot_string_destroy(&str);
 }
 
@@ -25,11 +28,12 @@ void str_toupper(const char* str) {
 void autorhythm_godot_dictionary_set(godot_dictionary* dict, const char* key, godot_variant* value) {
 	godot_string gdstring_key;
 	godot_variant gdvariant_key;
+	// create gdstring
 	api->godot_string_new(&gdstring_key);
 	api->godot_string_parse_utf8(&gdstring_key, key);
 	api->godot_variant_new_string(&gdvariant_key, &gdstring_key);
 	api->godot_string_destroy(&gdstring_key);
-
+	// set dictionary value
 	api->godot_dictionary_set(dict, &gdvariant_key, value);
 }
 
@@ -137,14 +141,11 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	aubio_tempo_t* t = new_aubio_tempo("default", win_s, hop_size, sample_rate);
 	fvec_t* fout = new_fvec(1);
 
-	debug_print("nightmare nightmare nightmare nightmare");
-
 	// in order to measure how far through the audio file the algorithm is (this is to see if i can get midi files to play)
 	unsigned int pcmbytes = 0u;
 	unsigned int max_pcmbytes;
 	FMOD_Sound_GetLength(snd, &max_pcmbytes, FMOD_TIMEUNIT_PCMBYTES);
 
-	assert(bit_rate == 16); // ????
 	// temporary sound buffer storing audio with integer samples, used to convert audio into floating point samples
 	unsigned int* temp_int = (unsigned int*)malloc(sizeof(unsigned int) * hop_size);
 	// check that we allocated memory for that buffer

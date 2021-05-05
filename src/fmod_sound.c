@@ -44,7 +44,7 @@ godot_variant ext_fmod_sound_load(godot_object* p_instance, void* p_method_data,
 	godot_char_string path = api->godot_string_ascii(&godot_string_path);
 
 	// create sound with fmod
-	FMOD_RESULT result = FMOD_System_CreateSound(fmod_system, api->godot_char_string_get_data(&path), FMOD_CREATESTREAM | FMOD_OPENONLY /*| FMOD_MPEGSEARCH*/ , NULL, &sound_dat->sound);
+	FMOD_RESULT result = FMOD_System_CreateSound(fmod_system, api->godot_char_string_get_data(&path), FMOD_CREATESTREAM | FMOD_OPENONLY, NULL, &sound_dat->sound);
 
 	// return fmod result
 	api->godot_variant_new_int(&ret, (int64_t)result);

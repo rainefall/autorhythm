@@ -1,5 +1,6 @@
 // This code is adapted from the official Godot Docs section on GDNative in C
 // https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/gdnative-c-example.html
+// It's not entirely mine and is therefore not included in the final code listing
 
 #pragma once
 #ifndef TEST_H

@@ -185,7 +185,6 @@
   <ItemGroup>
     <ClCompile Include="src\cubic_interpolation_array.cpp" />
     <ClCompile Include="src\fmod_sound.c" />
-    <ClCompile Include="src\id3v2_image_extract.c" />
     <ClCompile Include="src\level_generator.c" />
     <ClCompile Include="src\libcrc\crc16.c" />
     <ClCompile Include="src\libcrc\crc32.c" />
@@ -203,7 +202,6 @@
     <ClInclude Include="include\cubic_interpolation_array.hpp" />
     <ClInclude Include="include\fmod_sound.h" />
     <ClInclude Include="include\global.h" />
-    <ClInclude Include="include\id3v2_image_extract.h" />
     <ClInclude Include="include\level_generator.h" />
     <ClInclude Include="include\libcrc\checksum.h" />
     <ClInclude Include="include\test.h" />
