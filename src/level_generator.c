@@ -44,7 +44,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	// multimesh transform array
 	godot_pool_real_array onset_transforms;
 	api->godot_pool_real_array_new(&onset_transforms);
-	
+
 	// base transform array, this will never change as the blocks will never have different sizes
 	godot_pool_real_array base_transforms;
 	api->godot_pool_real_array_new(&base_transforms);
@@ -83,7 +83,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	godot_string artist;
 	api->godot_array_new(&metadata);
 	api->godot_string_new(&title);
-	api->godot_string_parse_utf8(&title,"Unknown Title"); // in case the file is not tagged
+	api->godot_string_parse_utf8(&title, "Unknown Title"); // in case the file is not tagged
 	api->godot_string_new(&artist);
 	api->godot_string_parse_utf8(&artist, "Unknown Artist"); // again, in case the file is not tagged
 	// read metadata
@@ -128,7 +128,7 @@ godot_dictionary autorhythm_generate_level(FMOD_SOUND* snd, AUTORHYTHM_LEVEL_GEN
 	// create onset object
 	aubio_onset_t* o = new_aubio_onset("wphase", win_s, hop_size, sample_rate);
 	char buf[32];
-	sprintf_s(buf, 32*sizeof(char), "%f", aubio_onset_get_threshold(o));
+	sprintf_s(buf, 32 * sizeof(char), "%f", aubio_onset_get_threshold(o));
 	aubio_onset_set_minioi_ms(o, settings->min_interval);
 	aubio_onset_set_threshold(o, settings->sensitivity);
 	fvec_t* out = new_fvec(2); // output
