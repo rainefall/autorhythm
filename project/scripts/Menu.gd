@@ -11,6 +11,7 @@ func _on_Play_pressed():
 func _on_FileDialog_file_selected(path):
 	Global.current_lvl_path = path;
 	# open generator settings screen
+	$Titlescreen/GeneratorSettings/DifficultySelector.selected = Global.game_settings["difficulty"];
 	$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.game_settings["generator"]["min_interval"];
 	$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.game_settings["generator"]["sensitivity"];
 	$Titlescreen/GeneratorSettings/TwoPlayerMode.pressed = Global.two_player_mode;
@@ -69,3 +70,25 @@ func _on_Save_pressed():
 # Exit the game
 func _on_Exit_pressed():
 	get_tree().quit();
+
+
+# Change sliders to values for a difficulty preset
+func _on_DifficultySelector_item_selected(index):
+	# check if the selected difficulty is not "Custom"
+	if index != 3:
+		# set sliders to preset value
+		$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.DIFFICULTY_PRESETS[index*2];
+		$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.DIFFICULTY_PRESETS[index*2+1];
+	else:
+		# set sliders to player stored custom value
+		$Titlescreen/GeneratorSettings/MInterval_HSlider.value = Global.game_settings["generator"]["min_interval"];
+		$Titlescreen/GeneratorSettings/Sensitivity_HSlider.value = Global.game_settings["generator"]["sensitivity"];
+
+
+# changed a value, custom difficulty now
+func _on_MInterval_HSlider_value_changed(value):
+	Global.game_settings["difficulty"] = 3;
+
+# ditto
+func _on_Sensitivity_HSlider_value_changed(value):
+	Global.game_settings["difficulty"] = 3;

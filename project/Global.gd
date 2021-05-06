@@ -30,6 +30,13 @@ const MIN_MIN_INTERVAL = 150;
 const MAX_COLOUR_BALANCE = 1;
 const MIN_COLOUR_BALANCE = 0.15;
 
+# presets for level generator settings
+const DIFFICULTY_PRESETS = [
+	400, 0.25,
+	300, 0.3,
+	200, 0.5
+]
+
 
 # Called when the game starts
 func _ready():
@@ -51,8 +58,9 @@ func _ready():
 	else:
 		# create default settings
 		game_settings = {
+			"difficulty" : 1,
 			"generator" : {
-				"min_interval" : 250,
+				"min_interval" : 300,
 				"sensitivity" : 0.3
 			},
 			"defname" : "Player",

@@ -226,6 +226,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DifficultySelector" type="OptionButton" parent="Titlescreen/GeneratorSettings"]
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.3
+margin_left = -76.5
+margin_top = -18.5
+margin_right = 76.5
+margin_bottom = 18.5
+text = "Normal"
+align = 1
+items = [ "Easy", null, false, 0, null, "Normal", null, false, 1, null, "Hard", null, false, 2, null, "Custom", null, false, 3, null ]
+selected = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Options" type="Panel" parent="Titlescreen"]
 visible = false
 anchor_right = 1.0
@@ -347,7 +364,10 @@ valign = 1
 [connection signal="pressed" from="Titlescreen/Buttons/Options" to="." method="_on_Options_pressed"]
 [connection signal="pressed" from="Titlescreen/Buttons/Exit" to="." method="_on_Exit_pressed"]
 [connection signal="file_selected" from="Titlescreen/FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="value_changed" from="Titlescreen/GeneratorSettings/MInterval_HSlider" to="." method="_on_MInterval_HSlider_value_changed"]
+[connection signal="value_changed" from="Titlescreen/GeneratorSettings/Sensitivity_HSlider" to="." method="_on_Sensitivity_HSlider_value_changed"]
 [connection signal="pressed" from="Titlescreen/GeneratorSettings/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="Titlescreen/GeneratorSettings/Start" to="." method="_on_Start_pressed"]
+[connection signal="item_selected" from="Titlescreen/GeneratorSettings/DifficultySelector" to="." method="_on_DifficultySelector_item_selected"]
 [connection signal="pressed" from="Titlescreen/Options/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Titlescreen/Options/Back" to="." method="_on_Back_pressed"]
