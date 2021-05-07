@@ -3,7 +3,7 @@
 // value "position"
 
 shader_type spatial;
-render_mode unshaded; // don't need lighting
+render_mode unshaded, cull_disabled; // disable lighting and backface culling
 
  // position along the x of the LUT to sample from
 uniform float position;
