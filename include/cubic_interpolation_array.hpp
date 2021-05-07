@@ -1,3 +1,13 @@
+/*
+	Implementation of cubic interpolated array.
+	Done in C++ instead of C because:
+		- C++ has a dynamic array type included in the standard library (std::vector)
+		  which makes implementing this a lot easier
+		- C++ has a dictionary type, std::map, which when iterated over is sorted by the key
+		  which makes finding values to interpolate between a lot easier
+		- I had already written it in C++ for the previous code base and it worked fine
+*/
+
 #pragma once
 
 #include <stdlib.h>

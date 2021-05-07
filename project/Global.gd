@@ -1,3 +1,6 @@
+# Global variables, constants, and functions
+# Also loads the three native extensions FMODSound, LevelGenerator and CubicArray
+
 extends Node;
 
 # native extensions

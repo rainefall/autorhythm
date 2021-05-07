@@ -1,3 +1,5 @@
+# Logic and control for the high score screen
+
 extends Control;
 
 # Called when the node enters the scene tree for the first time.

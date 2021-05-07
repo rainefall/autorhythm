@@ -1,3 +1,5 @@
+# Logic and control for the main menu, options menu and level generator settings menu
+
 extends Node;
 
 # play button, opens file select dialog

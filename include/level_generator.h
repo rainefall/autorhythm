@@ -1,3 +1,7 @@
+/*
+	Level generator algorithm and wrapper to Godot.
+*/
+
 #pragma once
 #ifndef LEVEL_GENERATOR_H
 #define LEVEL_GENERATOR_H

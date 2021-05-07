@@ -2,31 +2,29 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/lane.png-258612cf497db84390a8adb640844b45.s3tc.stex"
-path.etc2="res://.import/lane.png-258612cf497db84390a8adb640844b45.etc2.stex"
+path="res://.import/lane.png-258612cf497db84390a8adb640844b45.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://lane.png"
-dest_files=[ "res://.import/lane.png-258612cf497db84390a8adb640844b45.s3tc.stex", "res://.import/lane.png-258612cf497db84390a8adb640844b45.etc2.stex" ]
+dest_files=[ "res://.import/lane.png-258612cf497db84390a8adb640844b45.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
-compress/normal_map=0
+compress/normal_map=2
 flags/repeat=1
 flags/filter=true
 flags/mipmaps=true
-flags/anisotropic=false
+flags/anisotropic=true
 flags/srgb=1
-process/fix_alpha_border=true
+process/fix_alpha_border=false
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false

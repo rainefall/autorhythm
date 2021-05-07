@@ -1,3 +1,6 @@
+# Player controller, handles input and moves player accordingly
+# Also sets up input keys for players depending on whether or not they are player 2
+
 extends MeshInstance;
 
 var target_lane = 0;

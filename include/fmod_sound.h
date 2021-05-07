@@ -1,3 +1,7 @@
+/*
+	Wrapper from FMOD Core to Godot
+*/
+
 #pragma once
 #ifndef FMOD_AUDIO_H
 #define FMOD_AUDIO_H

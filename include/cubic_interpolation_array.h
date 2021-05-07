@@ -1,3 +1,7 @@
+/*
+	C interface to C++ cubic array class
+*/
+
 #pragma once
 #ifndef CUBARRAY_H
 #define CUBARRAY_H

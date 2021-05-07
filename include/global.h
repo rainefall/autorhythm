@@ -1,3 +1,9 @@
+/*
+	Include all headers (this is technically bad practice due to the effect it has
+	on compile times but due to the small size of this project it is fine) and
+	defines key global constants.
+*/
+
 #pragma once
 
 // c standard library

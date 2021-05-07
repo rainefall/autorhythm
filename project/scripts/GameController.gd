@@ -1,3 +1,5 @@
+# Main game logic, builds levels from generated data and handles main game loop
+
 extends Node;
 
 # "cubic array" used to interpolate values for the colour of the blocks/highway
