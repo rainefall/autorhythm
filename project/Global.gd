@@ -30,8 +30,6 @@ const MAX_SENSITIVITY = 0.75;
 const MIN_SENSITIVITY = 0.1;
 const MAX_MIN_INTERVAL = 400;
 const MIN_MIN_INTERVAL = 150;
-const MAX_COLOUR_BALANCE = 1;
-const MIN_COLOUR_BALANCE = 0.15;
 
 # presets for level generator settings
 const DIFFICULTY_PRESETS = [
@@ -122,7 +120,8 @@ func generate_level(snd, song_id):
 
 # Get difficulty multiplier for use with the final score
 func difficulty_multiplier():
-	var difficulty_mult = game_settings["generator"]["sensitivity"] / MAX_SENSITIVITY;
+	var difficulty_mult = 1;
+	difficulty_mult += game_settings["generator"]["sensitivity"] / MAX_SENSITIVITY;
 	difficulty_mult += MIN_MIN_INTERVAL / game_settings["generator"]["min_interval"];
 	return difficulty_mult;
 
