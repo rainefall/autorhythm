@@ -94,3 +94,13 @@ func _on_MInterval_HSlider_value_changed(value):
 # ditto
 func _on_Sensitivity_HSlider_value_changed(value):
 	Global.game_settings["difficulty"] = 3;
+
+
+# show credits screen when show credits button is pressed
+func _on_ShowCredits_pressed():
+	$Titlescreen/Options/Credits.show();
+
+
+# close credits screen
+func _on_Back_Credits_pressed():
+	$Titlescreen/Options/Credits.hide();
