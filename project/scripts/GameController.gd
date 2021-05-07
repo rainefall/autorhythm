@@ -141,7 +141,7 @@ func _process(delta):
 			Global.save_score(score, Global.game_settings["defname"]);
 			if Global.two_player_mode:
 				Global.save_score(score2, Global.game_settings["defname2"]);
-			get_tree().change_scene("res://scenes/highscore.tscn");
+			get_tree().change_scene("res://scenes/HighScore.tscn");
 		
 		# move camera
 		$CameraTrack.transform.origin.z = $Player.transform.origin.z - 8;

@@ -2,6 +2,11 @@
 
 extends Control;
 
+# custom sort comparison function for sorting values in descending order
+class Sorters:
+	static func descending(a, b):
+		if a > b: return true;
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# set header text
@@ -13,13 +18,18 @@ func _ready():
 		var text = fileops.get_as_text();
 		var highscores = parse_json(text);
 		fileops.close();
-		# get array of keys (the actual scores) and sort it
+		
+		# get array of keys (the actual scores)
 		var keys = highscores.keys();
-		keys.sort();
+		# convert to integers & sort
+		for i in range(0,len(keys)):
+			keys[i] = int(keys[i]);
+		keys.sort_custom(Sorters, "descending");
+		
 		# create leaderboard text
 		var scoretext = "";
 		for i in range(0,len(keys)):
-			scoretext += "%s - %s\n" % [keys[len(keys)-1-i], highscores[keys[len(keys)-1-i]]];
+			scoretext += "%s - %s\n" % [keys[i], highscores[str(keys[i])]];
 		$Scores.text = scoretext;
 
 
